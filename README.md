@@ -9,3 +9,5 @@ Create protocols app
 ````
 python manage.py startapp protocols
 ````
+Create views:
+- protocol landing page

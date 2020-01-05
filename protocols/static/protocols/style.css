@@ -1,5 +1,9 @@
 body {
     color: yellow;
-    background: white url("images/jason-leung-Xaanw0s0pMk-unsplash.gif") no-repeat;
-    background-size: 100%;
+    background: url("images/jason-leung-Xaanw0s0pMk-unsplash.gif") no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    background-size: 100% 100%;
 }

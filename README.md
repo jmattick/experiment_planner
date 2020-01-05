@@ -22,3 +22,10 @@ Migrate
 python manage.py makemigrations protocols
 python manage.py migrate
 ```
+
+Setup admin site
+
+Create superuser
+```
+python manage.py createsuperuser
+```

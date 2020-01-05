@@ -1,9 +1,14 @@
 from django.db import models
 
+
 class Protocol(models.Model):
     name = models.CharField(max_length=200)
     days = models.IntegerField(default=1)
     description = models.CharField(max_length=200)
+
+    def __str__(self):
+        return self.name
+
 
 class Step(models.Model):
     protocol = models.ForeignKey(Protocol, on_delete=models.CASCADE)

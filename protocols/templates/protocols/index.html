@@ -2,3 +2,12 @@
 
 <link rel="stylesheet" type="text/css" href="{% static 'protocols/style.css' %}">
 <h1>Protocols <3</h1>
+{% if protocol_list %}
+    <ul>
+        {% for protocol in protocol_list %}
+            <li>{{protocol.name}}</li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>No protocols are available</p>
+{% endif %}

@@ -1,6 +1,7 @@
 # Django Experiment Planner
 
-###Progress
+### Progress
+
 Initialize project
 ````
 django-admin startproject experiment_planner

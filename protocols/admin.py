@@ -14,6 +14,9 @@ class ProtocolAdmin(admin.ModelAdmin):
         ('Days',    {'fields': ['days']}),
         ('Description', {'fields': ['description']})
     ]
+    inlines = [StepInline]
+    list_display = ('name', 'description', 'days')
+    search_fields = ['name']
 
 
 admin.site.register(Protocol, ProtocolAdmin)

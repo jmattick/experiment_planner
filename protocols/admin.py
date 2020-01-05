@@ -1,3 +1,19 @@
 from django.contrib import admin
 
-# Register your models here.
+from .models import Protocol, Step
+
+
+class StepInline(admin.TabularInline):
+    model = Step
+    extra = 3
+
+
+class ProtocolAdmin(admin.ModelAdmin):
+    fieldsets = [
+        (None,      {'fields': ['name']}),
+        ('Days',    {'fields': ['days']}),
+        ('Description', {'fields': ['description']})
+    ]
+
+
+admin.site.register(Protocol, ProtocolAdmin)

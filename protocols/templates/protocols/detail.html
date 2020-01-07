@@ -1,0 +1,14 @@
+{% load static %}
+
+<link rel="stylesheet" type="text/css" href="{% static 'protocols/style.css' %}">
+
+<h1>{{protocol.name}}</h1>
+
+<p>{{protocol.days}} Days</p>
+
+{% for step in protocol.step_set.all %}
+
+    <p>{{step.step_number}} - {{step.step_text}}</p>
+
+{% endfor %}
+

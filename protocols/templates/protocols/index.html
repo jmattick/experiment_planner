@@ -5,7 +5,7 @@
 {% if protocol_list %}
     <ul>
         {% for protocol in protocol_list %}
-            <li>{{protocol.name}}</li>
+        <li><a href="{% url 'protocols:detail' protocol.id %}">{{protocol.name}}</a></li>
         {% endfor %}
     </ul>
 {% else %}

@@ -6,9 +6,19 @@
 
 <p>{{protocol.days}} Days</p>
 
-{% for step in protocol.step_set.all %}
+<table>
+    <tr>
+        <th><strong>Day</strong></th>
+        <th><strong>Step</strong></th>
+        <th><strong>Minutes</strong></th>
+    </tr>
+    {% for step in protocol.step_set.all %}
+        <tr>
+            <td>{{step.step_number}}</td>
+            <td>{{step.step_text}}</td>
+            <td>{{step.time_min}}</td>
+        </tr>
+    {% endfor %}
 
-    <p>{{step.step_number}} - {{step.step_text}}</p>
-
-{% endfor %}
+</table>
 

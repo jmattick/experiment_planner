@@ -8,4 +8,6 @@ body {
     background-size: 100% 100%;
 }
 
-
+td {
+    text-align: left;
+}

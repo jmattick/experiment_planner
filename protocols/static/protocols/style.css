@@ -8,6 +8,23 @@ body {
     background-size: 100% 100%;
 }
 
+table {
+  border-collapse: collapse;
+}
+
+table, th, td {
+  border: 1px solid black;
+}
+
 td {
+    text-align: center;
+}
+
+.text-left {
     text-align: left;
+}
+
+.white-background {
+    color: black;
+    background-color: white;
 }

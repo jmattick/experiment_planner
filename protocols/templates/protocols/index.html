@@ -3,11 +3,19 @@
 <link rel="stylesheet" type="text/css" href="{% static 'protocols/style.css' %}">
 <h1>Protocols <3</h1>
 {% if protocol_list %}
-    <ul>
+    <table class="white-background">
+        <tr>
+            <th><strong>Protocol</strong></th>
+            <th><strong>Days</strong></th>
+        </tr>
         {% for protocol in protocol_list %}
-        <li><a href="{% url 'protocols:detail' protocol.id %}">{{protocol.name}}</a></li>
+            <tr>
+                <td><a href="{% url 'protocols:detail' protocol.id %}">{{protocol.name}}</a></td>
+                <td>{{protocol.days}}</td>
+            </tr>
         {% endfor %}
-    </ul>
+    </table>
+
 {% else %}
     <p>No protocols are available</p>
 {% endif %}

@@ -18,6 +18,13 @@
             <td>{{step.step_text}}</td>
             <td>{{step.time_min}}</td>
         </tr>
+        {% for feature in step.feature_set.all %}
+            <tr>
+                <td></td>
+                <td>{{feature.name}} + '\n' + {{feature.details}}</td>
+                <td></td>
+            </tr>
+        {% endfor %}
     {% endfor %}
 
 </table>

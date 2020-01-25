@@ -1,6 +1,11 @@
 from django.contrib import admin
 
-from .models import Protocol, Step
+from .models import Feature, Protocol, Step
+
+
+class FeatureInline(admin.TabularInline):
+    model = Feature
+    extra = 1
 
 
 class StepInline(admin.TabularInline):

@@ -16,3 +16,10 @@ class Step(models.Model):
     step_text = models.CharField(max_length=1000)
     time_min = models.IntegerField(default=0)
     flexible = models.BooleanField(default=False)
+    gap_days = models.IntegerField(default=0)
+
+
+class Feature(models.Model):
+    step = models.ForeignKey(Step, on_delete=models.CASCADE)
+    name = models.CharField(max_length=100)
+    details = models.CharField(max_length=1000)

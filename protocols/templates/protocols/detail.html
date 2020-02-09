@@ -1,25 +1,31 @@
 {% load static %}
 
 <link rel="stylesheet" type="text/css" href="{% static 'protocols/style.css' %}">
-
+<h1><a href="{% url 'protocols:index'%}">Protocols <3</a></h1>
+<div class = "white-background">
 <h1>{{protocol.name}}</h1>
-
-<p>{{protocol.days}} Days</p>
 
 <p>{{protocol.description}}</p>
 
 <table class="white-background">
     <tr>
-        <th><strong>Day</strong></th>
         <th><strong>Step</strong></th>
         <th><strong>Minutes</strong></th>
+        <th><strong>Days between steps</strong></th>
+        <th><strong>Days from start</strong></th>
         <th><strong>Gap Tolerance? (Days) </strong></th>
     </tr>
     {% for step in protocol.step_set.all %}
         <tr>
-            <td>{{step.step_number}}</td>
             <td class = "text-left">{{step.step_text}}</td>
             <td>{{step.time_min}}</td>
+            {% if step.type == "TDS" %}
+                <td>--</td>
+                <td>{{step.days_between}}</td>
+            {% else %}
+                <td>{{step.days_between}}</td>
+                <td>--</td>
+            {% endif %}
             <td>{{step.gap_days}}</td>
         </tr>
         {% for feature in step.feature_set.all %}
@@ -33,3 +39,10 @@
 
 </table>
 
+<h2>DAG:</h2>
+<div>
+    {% for node in protocol.dag %}
+        <p>{{node}}</p>
+    {% endfor %}
+</div>
+</div>

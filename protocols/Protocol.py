@@ -121,7 +121,7 @@ class TDStep(Step):
         return self.days_from_start + self.gap
 
 
-class Protocol:
+class ProtocolLinkedList:
     """
     Class to represent a protocol as linked steps
     """
@@ -255,7 +255,7 @@ class Protocol:
         return G, nodes  # return DAG and ordered list of nodes
 
 
-class Schedule():
+class Schedule:
 
     def __init__(self, startdate=datetime.now().date()):
         self.default_scores = [100, 1, 1, 1, 1, 1, 100]
@@ -268,63 +268,63 @@ class Schedule():
         print(self.default_scores[self.startdate.isoweekday()])
 
 
-class Experiment(Protocol):
+class Experiment(ProtocolLinkedList):
 
     def __init__(self, protocol, date=datetime.now().date()):
         self.protocol = protocol
         self.date = date
 
-
-# example protocol
-example_protocol = Protocol()
-example_protocol.add_step(Step('A', 30))
-example_protocol.add_step(SDStep('B', 20))
-example_protocol.add_step(RSDStep('C', 5, 1, 1))
-example_protocol.add_step(TDStep('D', 60, 7))
-
-print('\nExample protocol:')
-for i in range(example_protocol.length()):
-    print(str(example_protocol.get(i).type()) + ': ' + str(example_protocol.get(i).data) + ', ' + str(
-        example_protocol.get(i).minutes) + ', ' + str(example_protocol.get(i).days_passed()))
-
-# build DAG
-
-print('\n DAG')
-dag, nodes = example_protocol.build_DAG()
-for node in nodes:
-    print(str(node) + ': ' + str(dag[node]))
-
-### initialize schedule
-##sd = Schedule()
-##sd.display_today_score()
-### initialize demo protocol
-demo1 = Protocol()
-
-# add steps to demo protocol
-demo1.add_step(Step('start'))
-
-demo1.add_step(RSDStep('daily', 5, 1, 0))
-
-demo1.add_step(TDStep('p1 13-15', 60, 13, 2))
-
-demo1.add_step(RSDStep('every 2-3d', 5, 2, 1))
-
-demo1.add_step(TDStep('p2 25-30', 60, 25, 5))
-
-# print protocol info
-print("\nDemo protocol:")
-for i in range(demo1.length()):
-    print(str(demo1.get(i).type()) + ': ' + str(demo1.get(i).data) + ', ' + str(demo1.get(i).days_passed()))
-
-print("\nDemo protocol # of steps: " + str(demo1.length()))
-print("Demo protocol # of days: " + str(demo1.total_days()))
-
-print('\ndemo1 DAG')
-dag, nodes = demo1.build_DAG()
-for node in nodes:
-    print(str(node) + ': ' + str(dag[node]))
-
-###demo experiment
-##exp1 = Experiment(demo1)
-##print(str(exp1.date))
-##print(exp1.date.isoweekday())
+#
+# # example protocol
+# example_protocol = Protocol()
+# example_protocol.add_step(Step('A', 30))
+# example_protocol.add_step(SDStep('B', 20))
+# example_protocol.add_step(RSDStep('C', 5, 1, 1))
+# example_protocol.add_step(TDStep('D', 60, 7))
+#
+# print('\nExample protocol:')
+# for i in range(example_protocol.length()):
+#     print(str(example_protocol.get(i).type()) + ': ' + str(example_protocol.get(i).data) + ', ' + str(
+#         example_protocol.get(i).minutes) + ', ' + str(example_protocol.get(i).days_passed()))
+#
+# # build DAG
+#
+# print('\n DAG')
+# dag, nodes = example_protocol.build_DAG()
+# for node in nodes:
+#     print(str(node) + ': ' + str(dag[node]))
+#
+# ### initialize schedule
+# ##sd = Schedule()
+# ##sd.display_today_score()
+# ### initialize demo protocol
+# demo1 = Protocol()
+#
+# # add steps to demo protocol
+# demo1.add_step(Step('start'))
+#
+# demo1.add_step(RSDStep('daily', 5, 1, 0))
+#
+# demo1.add_step(TDStep('p1 13-15', 60, 13, 2))
+#
+# demo1.add_step(RSDStep('every 2-3d', 5, 2, 1))
+#
+# demo1.add_step(TDStep('p2 25-30', 60, 25, 5))
+#
+# # print protocol info
+# print("\nDemo protocol:")
+# for i in range(demo1.length()):
+#     print(str(demo1.get(i).type()) + ': ' + str(demo1.get(i).data) + ', ' + str(demo1.get(i).days_passed()))
+#
+# print("\nDemo protocol # of steps: " + str(demo1.length()))
+# print("Demo protocol # of days: " + str(demo1.total_days()))
+#
+# print('\ndemo1 DAG')
+# dag, nodes = demo1.build_DAG()
+# for node in nodes:
+#     print(str(node) + ': ' + str(dag[node]))
+#
+# ###demo experiment
+# ##exp1 = Experiment(demo1)
+# ##print(str(exp1.date))
+# ##print(exp1.date.isoweekday())

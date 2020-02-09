@@ -8,12 +8,18 @@ body {
     background-size: 100% 100%;
 }
 
+h1 a {
+    text-decoration: none;
+    color: yellow;
+}
+
+
 table {
-  border-collapse: collapse;
+    border-collapse: collapse;
 }
 
 table, th, td {
-  border: 1px solid black;
+    border: 1px solid black;
 }
 
 td {

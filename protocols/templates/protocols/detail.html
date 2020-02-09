@@ -1,48 +1,54 @@
 {% load static %}
 
 <link rel="stylesheet" type="text/css" href="{% static 'protocols/style.css' %}">
-<h1><a href="{% url 'protocols:index'%}">Protocols <3</a></h1>
-<div class = "white-background">
-<h1>{{protocol.name}}</h1>
+<div class = "container">
+    <header>
+        <h1><a href="{% url 'protocols:index'%}">Protocols <3</a></h1>
+    </header>
+    <div id = "details">
+        <div class = "white-background">
+        <h1>{{protocol.name}}</h1>
 
-<p>{{protocol.description}}</p>
+        <p>{{protocol.description}}</p>
 
-<table class="white-background">
-    <tr>
-        <th><strong>Step</strong></th>
-        <th><strong>Minutes</strong></th>
-        <th><strong>Days between steps</strong></th>
-        <th><strong>Days from start</strong></th>
-        <th><strong>Gap Tolerance? (Days) </strong></th>
-    </tr>
-    {% for step in protocol.step_set.all %}
-        <tr>
-            <td class = "text-left">{{step.step_text}}</td>
-            <td>{{step.time_min}}</td>
-            {% if step.type == "TDS" %}
-                <td>--</td>
-                <td>{{step.days_between}}</td>
-            {% else %}
-                <td>{{step.days_between}}</td>
-                <td>--</td>
-            {% endif %}
-            <td>{{step.gap_days}}</td>
-        </tr>
-        {% for feature in step.feature_set.all %}
+        <table class="white-background">
             <tr>
-                <td></td>
-                <td>{{feature.name}} + '\n' + {{feature.details}}</td>
-                <td></td>
+                <th><strong>Step</strong></th>
+                <th><strong>Minutes</strong></th>
+                <th><strong>Days between steps</strong></th>
+                <th><strong>Days from start</strong></th>
+                <th><strong>Gap Tolerance? (Days) </strong></th>
             </tr>
-        {% endfor %}
-    {% endfor %}
+            {% for step in protocol.step_set.all %}
+                <tr>
+                    <td class = "text-left">{{step.step_text}}</td>
+                    <td>{{step.time_min}}</td>
+                    {% if step.type == "TDS" %}
+                        <td>--</td>
+                        <td>{{step.days_between}}</td>
+                    {% else %}
+                        <td>{{step.days_between}}</td>
+                        <td>--</td>
+                    {% endif %}
+                    <td>{{step.gap_days}}</td>
+                </tr>
+                {% for feature in step.feature_set.all %}
+                    <tr>
+                        <td></td>
+                        <td>{{feature.name}} + '\n' + {{feature.details}}</td>
+                        <td></td>
+                    </tr>
+                {% endfor %}
+            {% endfor %}
 
-</table>
+        </table>
 
-<h2>DAG:</h2>
-<div>
-    {% for node in protocol.dag %}
-        <p>{{node}}</p>
-    {% endfor %}
-</div>
+        <h2>DAG:</h2>
+        <div>
+            {% for node in protocol.dag %}
+                <p>{{node}}</p>
+            {% endfor %}
+        </div>
+        </div>
+    </div>
 </div>

@@ -1,21 +1,38 @@
 {% load static %}
 
 <link rel="stylesheet" type="text/css" href="{% static 'protocols/style.css' %}">
-<h1>Protocols <3</h1>
-{% if protocol_list %}
-    <table class="white-background">
-        <tr>
-            <th><strong>Protocol</strong></th>
-            <th><strong>Days</strong></th>
-        </tr>
-        {% for protocol in protocol_list %}
-            <tr>
-                <td><a href="{% url 'protocols:detail' protocol.id %}">{{protocol.name}}</a></td>
-                <td>{{protocol.days}}</td>
-            </tr>
-        {% endfor %}
-    </table>
+<div class = "container">
+    <header>
+        <h1>Protocols <3</h1>
+    </header>
+    <div class = "main">
+        <aside>
+            <div>
+                <h3>Current Protocols:</h3>
+            {% if protocol_list %}
+                <table class="white-background">
+                    <tr>
+                        <th><strong>Protocol</strong></th>
+                        <th><strong>Days</strong></th>
+                    </tr>
+                    {% for protocol in protocol_list %}
+                        <tr>
+                            <td><a href="{% url 'protocols:detail' protocol.id %}">{{protocol.name}}</a></td>
+                            <td>{{protocol.days}}</td>
+                        </tr>
+                    {% endfor %}
+                </table>
+            {% else %}
+                <p>No protocols are available</p>
+            {% endif %}
+            </div>
+            <div>
+                <h3>Other Content:</h3>
+            </div>
+        </aside>
 
-{% else %}
-    <p>No protocols are available</p>
-{% endif %}
+        <div class = "calendar-container">
+            <h3>Calendar:</h3>
+        </div>
+    </div>
+</div>

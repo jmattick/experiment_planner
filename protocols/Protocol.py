@@ -187,6 +187,7 @@ class ProtocolLinkedList:
 
         def add_node(G, d, step):
             """Function to recursively add a node to the graph"""
+            if (d, step.data) in G: return  # terminate if already in graph
             if step.next == None:  # base case if no more nodes to add in path
                 return
             d2 = d + step.days  # next day in protocol

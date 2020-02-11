@@ -3,7 +3,8 @@
   <component name="ChangeListManager">
     <list default="true" id="fae667b4-6eda-472d-8b2b-54e0a9d26d61" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/protocols/Protocol.py" beforeDir="false" afterPath="$PROJECT_DIR$/protocols/Protocol.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/protocols/templates/protocols/detail.html" beforeDir="false" afterPath="$PROJECT_DIR$/protocols/templates/protocols/detail.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/protocols/templates/protocols/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/protocols/templates/protocols/index.html" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -28,17 +29,17 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/protocols/static/protocols/style.css">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="224">
+            <state relative-caret-position="612">
               <caret line="36" column="17" selection-start-line="36" selection-start-column="17" selection-end-line="36" selection-end-column="17" />
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/protocols/Protocol.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="510">
-              <caret line="189" column="75" selection-start-line="189" selection-start-column="75" selection-end-line="189" selection-end-column="75" />
+            <state relative-caret-position="-12">
+              <caret line="161" column="18" lean-forward="true" selection-start-line="161" selection-start-column="18" selection-end-line="161" selection-end-column="18" />
             </state>
           </provider>
         </entry>
@@ -46,17 +47,17 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/protocols/templates/protocols/detail.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="255">
-              <caret line="15" column="22" selection-start-line="15" selection-start-column="22" selection-end-line="15" selection-end-column="22" />
+            <state relative-caret-position="85">
+              <caret line="5" column="49" selection-start-line="5" selection-start-column="49" selection-end-line="5" selection-end-column="69" />
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/protocols/templates/protocols/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="578">
-              <caret line="34" column="25" selection-start-line="34" selection-start-column="25" selection-end-line="34" selection-end-column="25" />
+            <state relative-caret-position="85">
+              <caret line="5" column="32" selection-start-line="5" selection-start-column="32" selection-end-line="5" selection-end-column="32" />
             </state>
           </provider>
         </entry>
@@ -144,17 +145,17 @@
         <option value="$PROJECT_DIR$/protocols/admin.py" />
         <option value="$PROJECT_DIR$/protocols/models.py" />
         <option value="$PROJECT_DIR$/protocols/views.py" />
-        <option value="$PROJECT_DIR$/protocols/templates/protocols/index.html" />
-        <option value="$PROJECT_DIR$/protocols/templates/protocols/detail.html" />
         <option value="$PROJECT_DIR$/protocols/static/protocols/style.css" />
         <option value="$PROJECT_DIR$/protocols/Protocol.py" />
+        <option value="$PROJECT_DIR$/protocols/templates/protocols/detail.html" />
+        <option value="$PROJECT_DIR$/protocols/templates/protocols/index.html" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
     <option name="x" value="635" />
-    <option name="width" value="1294" />
-    <option name="height" value="1039" />
+    <option name="width" value="1295" />
+    <option name="height" value="1040" />
   </component>
   <component name="ProjectView">
     <navigator proportions="" version="1">
@@ -351,9 +352,6 @@
     <servers />
   </component>
   <component name="TestHistory">
-    <history-entry file="pytest_for_protocols_tests_test_protocol_add_many_steps_total_days - 2020.02.05 at 08h 28m 47s.xml">
-      <configuration name="pytest for protocols.tests.test_protocol_add_many_steps_total_days" configurationId="tests" />
-    </history-entry>
     <history-entry file="pytest_for_protocols_tests_test_protocol_add_sdstep_total_days - 2020.02.05 at 08h 29m 34s.xml">
       <configuration name="pytest for protocols.tests.test_protocol_add_sdstep_total_days" configurationId="tests" />
     </history-entry>
@@ -381,6 +379,9 @@
     <history-entry file="pytest_in_tests_py - 2020.02.08 at 23h 29m 34s.xml">
       <configuration name="pytest in tests.py" configurationId="tests" />
     </history-entry>
+    <history-entry file="pytest_in_tests_py - 2020.02.10 at 20h 58m 41s.xml">
+      <configuration name="pytest in tests.py" configurationId="tests" />
+    </history-entry>
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -392,15 +393,14 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="508" y="0" width="1035" height="831" extended-state="0" />
-    <editor active="true" />
+    <frame x="508" y="0" width="1036" height="832" extended-state="0" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.20717949" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.21106558" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.25358167" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.2532189" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -482,17 +482,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/protocols/templates/protocols/detail.html">
+    <entry file="file://$PROJECT_DIR$/protocols/static/protocols/style.css">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="15" column="22" selection-start-line="15" selection-start-column="22" selection-end-line="15" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/protocols/templates/protocols/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="578">
-          <caret line="34" column="25" selection-start-line="34" selection-start-column="25" selection-end-line="34" selection-end-column="25" />
+        <state relative-caret-position="612">
+          <caret line="36" column="17" selection-start-line="36" selection-start-column="17" selection-end-line="36" selection-end-column="17" />
         </state>
       </provider>
     </entry>
@@ -536,17 +529,24 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/protocols/static/protocols/style.css">
+    <entry file="file://$PROJECT_DIR$/protocols/Protocol.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="224">
-          <caret line="36" column="17" selection-start-line="36" selection-start-column="17" selection-end-line="36" selection-end-column="17" />
+        <state relative-caret-position="-12">
+          <caret line="161" column="18" lean-forward="true" selection-start-line="161" selection-start-column="18" selection-end-line="161" selection-end-column="18" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/protocols/Protocol.py">
+    <entry file="file://$PROJECT_DIR$/protocols/templates/protocols/detail.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="510">
-          <caret line="189" column="75" selection-start-line="189" selection-start-column="75" selection-end-line="189" selection-end-column="75" />
+        <state relative-caret-position="85">
+          <caret line="5" column="49" selection-start-line="5" selection-start-column="49" selection-end-line="5" selection-end-column="69" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/protocols/templates/protocols/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="85">
+          <caret line="5" column="32" selection-start-line="5" selection-start-column="32" selection-end-line="5" selection-end-column="32" />
         </state>
       </provider>
     </entry>

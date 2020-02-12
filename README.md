@@ -34,7 +34,7 @@ Setup admin site:
 python manage.py createsuperuser
 ```
 
-Add custom ProtocolLinkedList datastructure:
+Add custom ProtocolLinkedList data structure:
 - LinkedList of Step subclasses:
     - Step-dependent Step
     - Repeating Step-dependent Step

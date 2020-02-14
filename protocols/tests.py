@@ -1,6 +1,7 @@
 # from django.test import TestCase
 from .Protocol import ProtocolLinkedList, RSDStep, Step, SDStep, TDStep
 # Create your tests here.
+import timeit
 
 
 def test_protocol_add_step_length():
@@ -113,3 +114,4 @@ def test_protocol_add_many_tdssteps_total_days():
         total += i
         prot.add_step(TDStep("step", i))
     return prot.total_days() == total
+

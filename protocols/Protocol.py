@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timedelta
 
 
 class Step:
@@ -256,17 +256,67 @@ class ProtocolLinkedList:
         return G, nodes  # return DAG and ordered list of nodes
 
 
-class Schedule:
+class Day:
+    """
+    Class to represent days in a schedule linked list
 
-    def __init__(self, startdate=datetime.now().date()):
+    Attributes:
+        date: datetime date of day
+        prev: day before day
+        next: day after day
+        steps: list of steps planned for day
+        time: total time of all steps in day
+    """
+    def __init__(self, date):
+        """Initializes date, prev, next, steps, and time"""
+        self.date = date
+        self.prev = None
+        self.next = None
+        self.steps = []
+        self.time = 0
+
+
+class Schedule:
+    """
+    Class to represent a schedule as a linked list
+
+    Attributes:
+        default_scores: list of default day weights starting on Sunday. Default weights are 1 M-F and 100 Sa-Su
+        start_day: datetime date of first day in schedule
+        current_day: datetime date to represent the beginning of dates that can be scheduled
+        end_day: datetime date of the last day in the schedule
+    """
+    def __init__(self, start_date=datetime.now().date()):
         self.default_scores = [100, 1, 1, 1, 1, 1, 100]
-        self.startdate = startdate
-        self.date_list = []
-        self.score_list = []
+        self.start_day = Day(start_date)
+        self.current_day = self.start_day
+        self.end_day = self.start_day
+
+    def update_days(self, date=datetime.now().date()):
+        """Function to update current_date parameter and add days to schedule up to the datetime date specified"""
+        if self.end_day.date < date:
+            while self.end_day.date < date:
+                new_date = Day(self.end_day.date + timedelta(days=1))
+                self.end_day.next = new_date
+                self.end_day = new_date
+        if self.current_day.date < date:
+            while self.current_day.date < date:
+                self.current_day = self.current_day.next
+
+    def change_default_scores(self, scores):
+        pass
+
+    def display_schedule(self):
+        print('displaying schedule:')
+        day = self.start_day
+        print(day.date)
+        while day.next is not None:
+            day = day.next
+            print(day.date)
 
     def display_today_score(self):
-        print('today is ' + str(self.startdate.isoweekday()))
-        print(self.default_scores[self.startdate.isoweekday()])
+        print('today is ' + str(self.current_day.date.isoweekday()))
+        print(self.default_scores[self.current_day.date.isoweekday()])
 
 
 class Experiment(ProtocolLinkedList):
@@ -274,6 +324,18 @@ class Experiment(ProtocolLinkedList):
     def __init__(self, protocol, date=datetime.now().date()):
         self.protocol = protocol
         self.date = date
+
+
+sch = Schedule(datetime.now().date() - timedelta(days=3))
+
+
+sch.display_schedule()
+sch.update_days()
+sch.display_schedule()
+
+sch.display_today_score()
+
+
 
 #
 # # example protocol
@@ -329,3 +391,4 @@ class Experiment(ProtocolLinkedList):
 # ##exp1 = Experiment(demo1)
 # ##print(str(exp1.date))
 # ##print(exp1.date.isoweekday())
+

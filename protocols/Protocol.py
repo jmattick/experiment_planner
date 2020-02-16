@@ -306,6 +306,14 @@ class Schedule:
     def change_default_scores(self, scores):
         pass
 
+    def length(self):
+        day = self.start_day
+        count = 0
+        while day.next is not None:
+            count += 1
+            day = day.next
+        return count
+
     def display_schedule(self):
         print('displaying schedule:')
         day = self.start_day
@@ -315,8 +323,8 @@ class Schedule:
             print(day.date)
 
     def display_today_score(self):
-        print('today is ' + str(self.current_day.date.isoweekday()))
-        print(self.default_scores[self.current_day.date.isoweekday()])
+        print('today is ' + str(self.current_day.date.weekday()))
+        print(self.default_scores[self.current_day.date.weekday()])
 
 
 class Experiment(ProtocolLinkedList):
@@ -332,7 +340,7 @@ sch = Schedule(datetime.now().date() - timedelta(days=3))
 sch.display_schedule()
 sch.update_days()
 sch.display_schedule()
-
+print(sch.length())
 sch.display_today_score()
 
 

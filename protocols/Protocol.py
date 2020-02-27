@@ -187,8 +187,7 @@ class ProtocolLinkedList:
 
         def add_node(G, d, step):
             """Function to recursively add a node to the graph"""
-            if (d, step.data) in G: return  # terminate if already in graph
-            if step.next == None:  # base case if no more nodes to add in path
+            if step.next is None:  # base case if no more nodes to add in path
                 return
             d2 = d + step.days  # next day in protocol
             if step.type() == "TDS":  # if step is a time dependent step
@@ -209,7 +208,8 @@ class ProtocolLinkedList:
                                 nodes.add(u)
                                 G[u] = set()
                                 G[u].add(v)
-                            add_node(G, d2 + i, step)  # call function on step with next day
+                            if (d2 + i, step) not in G:
+                                add_node(G, d2 + i, step)  # call function on step with next day
                         if d2 + i >= step.next.days_from_start:  # if next day is greater than first day to start next step
                             # setup tuples with day and step for edge to next step
                             u = (d, step.data)
@@ -221,7 +221,8 @@ class ProtocolLinkedList:
                                 nodes.add(u)
                                 G[u] = set()
                                 G[u].add(v)
-                            add_node(G, d2 + i, step.next)  # call function on next step
+                            if (d2 + i, step.next) not in G:
+                                add_node(G, d2 + i, step.next)  # call function on next step
             else:  # for all other steps
                 for i in range(step.gap + 1):  # loop through gap values
                     # setup tuples with day and step for edge
@@ -234,7 +235,8 @@ class ProtocolLinkedList:
                         nodes.add(u)
                         G[u] = set()
                         G[u].add(v)
-                    add_node(G, d2 + i, step.next)  # call funtion on next step
+                    if (d2 + i, step.next) not in G:
+                        add_node(G, d2 + i, step.next)  # call funtion on next step
 
         add_node(G, 0, curr)  # call function on first node in protocol
         # sort nodes into a list

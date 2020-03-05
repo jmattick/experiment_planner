@@ -1,4 +1,7 @@
 from django.db import models
+from django.urls import reverse
+from django.utils import timezone
+import datetime
 from .Protocol import ProtocolLinkedList, RSDStep, SDStep, TDStep
 
 
@@ -35,3 +38,24 @@ class Feature(models.Model):
     step = models.ForeignKey(Step, on_delete=models.CASCADE)
     name = models.CharField(max_length=100)
     details = models.CharField(max_length=1000)
+
+
+class Event(models.Model):
+    title = models.CharField(max_length=200)
+    start_time = models.DateTimeField(default=timezone.now,)
+
+    def __str__(self):
+        return self.title
+
+    @property
+    def get_html_url(self):
+        url = reverse('protocols:event_edit', args=(self.id,))
+        return f'<a href="{url}">{self.title}</a>'
+
+
+
+
+
+
+
+

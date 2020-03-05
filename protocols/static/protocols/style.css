@@ -42,6 +42,7 @@ header {
 }
 
 .main {
+    height: 90%;
     display: flex;
     flex-flow: row wrap;
 }
@@ -78,3 +79,48 @@ aside {
         flex-grow: 2
     }
 }
+
+.calendar {
+    width: 98%;
+    height: 90%;
+    margin: 20px;
+}
+
+.calendar tr, .calendar td {
+    border: 1px solid black;
+    text-align: left;
+}
+
+.calendar td {
+    width: 14.2%;
+}
+
+.calendar tr th {
+    padding: 5px 0px 0px 5px;
+    margin: 0px;
+}
+
+.calendar tr:nth-child(-n+2) {
+    padding: 5px;
+    height: 30px;
+}
+
+.calendar td span {
+    padding: 5px 0px 0px 5px;
+}
+
+.calendar > * {
+    vertical-align: top;
+}
+
+.calendar ul {
+    padding: 5px;
+    list-style-type: none;
+    margin: 0px;
+
+}
+
+.calendar ul li > * {
+    margin: 0px;
+}
+

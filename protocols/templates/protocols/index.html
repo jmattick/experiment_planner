@@ -4,7 +4,7 @@
 <div class = "container">
     <div class = "nav">
         <header>
-            <h1>Experiment Scheduler</h1>
+            <h1><a href="{% url 'protocols:index'%}">Experiment Scheduler</a></h1>
         </header>
     </div>
 
@@ -36,6 +36,7 @@
 
         <div class = "calendar-container">
             <h3>Calendar:</h3>
+            <a href="{% url 'protocols:calendar' %}">full calendar</a>
         </div>
     </div>
 </div>

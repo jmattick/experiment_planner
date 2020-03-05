@@ -1,0 +1,16 @@
+{% load static %}
+
+<link rel="stylesheet" type="text/css" href="{% static 'protocols/style.css' %}">
+<div class = "container">
+    <div class = "nav">
+        <header>
+            <h1><a href="{% url 'protocols:index'%}">Experiment Scheduler</a></h1>
+        </header>
+    </div>
+    <div class = "main">
+        {% block content %}
+        <a href="{% url 'protocols:calendar' %}?{{ prev_month }}"> Previous Month </a><a href="{% url 'protocols:calendar' %}?{{ next_month }}"> Next Month </a>
+        {{ calendar }}
+        {% endblock %}
+    </div>
+</div>

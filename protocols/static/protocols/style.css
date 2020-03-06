@@ -44,6 +44,7 @@ h1 a {
 
 a {
     text-decoration: none;
+    color: var(--body-font-color);
 }
 
 table {
@@ -138,6 +139,13 @@ aside a {
     width: 98%;
     height: 90%;
     margin: 0px;
+}
+
+.month-btn {
+    background-color: var(--aside-bg-color);
+    border: 1px solid var(--aside-bg-color);
+    border-radius: 5px;
+    margin: 5px;
 }
 
 .calendar tr, .calendar td {

@@ -1,13 +1,18 @@
 :root {
+  --body-font-color: black;
   --nav-bg-color: #90CCF4;
   --nav-font-color: black;
   --body-bg-color: #FFFFFF;
   --tile-bg-color: #FFFFFF;
   --event-bg-color: #F3D250;
+  --general-btn-bg-color: #5DA2D5;
+  --heatmap-color: #F78888;
+  --aside-bg-color: #ECECEC;
 
 }
 
 body {
+    color: var(--body-font-color);
     margin: 0px;
     background-color: var(--body-bg-color);
     font-family: Arial, Helvetica, sans-serif;
@@ -74,7 +79,7 @@ header {
     height: 90%;
     display: flex;
     flex-flow: row wrap;
-    justify-content: space-around;
+    justify-content: space-between;
 }
 
 .main > * {
@@ -87,8 +92,17 @@ header {
 }
 
 aside {
+    background-color: var(--aside-bg-color);
     display: flex;
     flex-flow: column;
+}
+
+aside ul {
+    list-style-type: none;
+}
+
+aside a {
+    color: var(--body-font-color);
 }
 
 #details {
@@ -170,9 +184,4 @@ aside {
     border-radius: 5px;
     background-color: var(--event-bg-color);
     margin: 2px 0px;
-}
-
-.calendar li a {
-
-    width: 100%;
 }

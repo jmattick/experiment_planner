@@ -5,18 +5,19 @@
             <div>
                 <h3>Current Protocols:</h3>
             {% if protocol_list %}
-                <table class="white-background">
+                <!--<table class="white-background">
                     <tr>
                         <th><strong>Protocol</strong></th>
                         <th><strong>Days</strong></th>
-                    </tr>
+                    </tr>-->
+                <ul>
                     {% for protocol in protocol_list %}
-                        <tr>
-                            <td><a href="{% url 'protocols:detail' protocol.id %}">{{protocol.name}}</a></td>
-                            <td>{{protocol.days}}</td>
-                        </tr>
+                        <li>
+                            <h3><a href="{% url 'protocols:detail' protocol.id %}">{{protocol.name}}</a></h3>
+                        </li>
                     {% endfor %}
-                </table>
+                </ul>
+                    <!--</table>-->
             {% else %}
                 <p>No protocols are available</p>
             {% endif %}

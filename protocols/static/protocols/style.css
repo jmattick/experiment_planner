@@ -67,19 +67,26 @@ aside {
 }
 
 @media only screen and (max-width: 799px) {
-    .main > * {
+    aside {
+        width: 100%;
+        /*flex-grow: 1;*/
+    }
 
+    .calendar-container {
+        width: 100%;
+        /*flex-grow: 2;*/
     }
 }
 
 @media only screen and (min-width: 800px) {
     aside {
-
-        flex-grow: 1;
+        width: 30%;
+        /*flex-grow: 1;*/
     }
 
     .calendar-container {
-        flex-grow: 2;
+        width: 60%;
+        /*flex-grow: 2;*/
     }
 }
 
@@ -95,7 +102,7 @@ aside {
 }
 
 .calendar td {
-    width: 14.2%;
+    width: calc(100% / 7);
 }
 
 .calendar tr th {

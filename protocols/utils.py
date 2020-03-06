@@ -10,7 +10,6 @@ class Calendar(HTMLCalendar):
         self.month = month
         super(Calendar, self).__init__()
 
-
     def formatday(self, day, events):
         events_per_day = events.filter(start_time__day=day)
         d = ''

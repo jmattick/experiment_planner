@@ -62,6 +62,23 @@ def index(request):
     context_object_name = 'protocol_list'
     return render(request, template_name, {context_object_name: Protocol.objects.all()})
 
+class IndexView(ListView):
+    template_name = 'protocols/index.html'
+    context_object_name = 'protocol_list'
+    model = Protocol
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['protocol_list'] = Protocol.objects.all()
+        d = get_date(self.request.GET.get('month', None))
+        cal = Calendar(d.year, d.month)
+        html_cal = cal.formatmonth(withyear=True)
+        context['calendar'] = mark_safe(html_cal)
+        context['prev_month'] = prev_month(d)
+        context['next_month'] = next_month(d)
+
+        return context
+
 
 def detail(request, protocol_id):
     """detail view"""

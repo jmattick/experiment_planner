@@ -52,6 +52,10 @@ header {
     padding-right: 20px;
 }
 
+.main > table {
+    margin: 20px;
+}
+
 aside {
     display: flex;
     flex-flow: column;
@@ -71,19 +75,18 @@ aside {
 @media only screen and (min-width: 800px) {
     aside {
 
-        flex-grow: 1
+        flex-grow: 1;
     }
 
     .calendar-container {
-
-        flex-grow: 2
+        flex-grow: 2;
     }
 }
 
 .calendar {
     width: 98%;
     height: 90%;
-    margin: 20px;
+    margin: 0px;
 }
 
 .calendar tr, .calendar td {
@@ -123,4 +126,3 @@ aside {
 .calendar ul li > * {
     margin: 0px;
 }
-

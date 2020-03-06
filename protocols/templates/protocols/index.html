@@ -36,7 +36,13 @@
 
         <div class = "calendar-container">
             <h3>Calendar:</h3>
-            <a href="{% url 'protocols:calendar' %}">full calendar</a>
+            <div>
+                {{calendar}}
+            </div>
+            <div>
+                <a class = 'month-btn' href="{% url 'protocols:index' %}?{{ prev_month }}"> Previous Month </a><a class = 'month-btn' href="{% url 'protocols:index' %}?{{ next_month }}"> Next Month </a>
+                <a style = "float: right" href="{% url 'protocols:calendar' %}">full calendar</a>
+            </div>
         </div>
     </div>
 </div>

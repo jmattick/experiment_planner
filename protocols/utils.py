@@ -10,13 +10,19 @@ class Calendar(HTMLCalendar):
         self.month = month
         super(Calendar, self).__init__()
 
+
     def formatday(self, day, events):
         events_per_day = events.filter(start_time__day=day)
         d = ''
+        t = 0
         for event in events_per_day:
+            t += int(event.minutes)
             d += f'<li class="calendar_list"> {event.get_html_url} </li>'
+        trans = t / 480
+        if trans > 1:
+            trans = 1
         if day != 0:
-            return f"<td><span class='date'>{day}</span><ul> {d} </ul></td>"
+            return f"<td style='background-color:rgba(255, 99, 71, {trans})'><span class='date'>{day}</span><ul> {d} </ul></td>"
         return '<td></td>'
 
     def formatweek(self, theweek, events):
@@ -33,3 +39,4 @@ class Calendar(HTMLCalendar):
         for week in self.monthdays2calendar(self.year, self.month):
             cal += f'{self.formatweek(week, events)}\n'
         return cal
+

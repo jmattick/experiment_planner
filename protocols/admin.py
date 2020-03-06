@@ -6,7 +6,8 @@ from .models import Event, Feature, Protocol, Step
 class EventAdmin(admin.ModelAdmin):
     fieldsets = [
         ('Title', {'fields': ['title']}),
-        ('Start', {'fields': ['start_time']})
+        ('Start', {'fields': ['start_time']}),
+        ('Minutes', {'fields': ['minutes']})
     ]
 
 

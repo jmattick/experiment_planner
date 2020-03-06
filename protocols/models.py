@@ -43,6 +43,7 @@ class Feature(models.Model):
 class Event(models.Model):
     title = models.CharField(max_length=200)
     start_time = models.DateTimeField(default=timezone.now,)
+    minutes = models.IntegerField(default=5)
 
     def __str__(self):
         return self.title

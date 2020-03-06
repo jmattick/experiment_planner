@@ -21,7 +21,7 @@ class Calendar(HTMLCalendar):
         if trans > 1:
             trans = 1
         if day != 0:
-            return f"<td style='background-color:rgba(255, 99, 71, {trans})'><span class='date'>{day}</span><ul> {d} </ul></td>"
+            return f"<td style='background-color:rgba(223,76,115,{trans})'><span class='date'>{day}</span><ul> {d} </ul></td>"
         return '<td></td>'
 
     def formatweek(self, theweek, events):

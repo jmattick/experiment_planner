@@ -1,13 +1,5 @@
-{% load static %}
-
-<link rel="stylesheet" type="text/css" href="{% static 'protocols/style.css' %}">
-<div class = "container">
-    <div class = "nav">
-        <header>
-            <h1><a href="{% url 'protocols:index'%}">Experiment Scheduler</a></h1>
-        </header>
-    </div>
-
+{% include "./header.html" %}
+<!-- header -->
     <div class = "main">
         <aside>
             <div>
@@ -47,4 +39,4 @@
         </div>
 
     </div>
-</div>
+{% include "./footer.html" %}

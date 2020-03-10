@@ -62,6 +62,7 @@ def index(request):
     context_object_name = 'protocol_list'
     return render(request, template_name, {context_object_name: Protocol.objects.all()})
 
+
 class IndexView(ListView):
     template_name = 'protocols/index.html'
     context_object_name = 'protocol_list'

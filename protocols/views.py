@@ -56,6 +56,11 @@ def event(request, event_id):
     return render(request, template_name, {context_object_name: event})
 
 
+def scheduler(request):
+    template_name = 'protocols/scheduler.html'
+    return render(request, template_name)
+
+
 def index(request):
     """"index view"""
     template_name = 'protocols/index.html'

@@ -27,6 +27,13 @@ body {
 
 #navbar {
     background-color: var(--nav-bg-color);
+
+}
+
+header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
 }
 
 header > h1 {
@@ -113,6 +120,8 @@ aside a {
     padding-left: 20px;
     padding-right: 20px;
 }
+
+
 
 @media only screen and (max-width: 799px) {
     aside {

@@ -154,6 +154,13 @@ aside a {
     margin: 0px;
 }
 
+.generic-btn {
+    background-color: var(--aside-bg-color);
+    border: 1px solid var(--aside-bg-color);
+    border-radius: 5px;
+    margin: 5px;
+}
+
 .month-btn {
     background-color: var(--aside-bg-color);
     border: 1px solid var(--aside-bg-color);

@@ -2,6 +2,7 @@ from django.db import models
 from django.urls import reverse
 from django.utils import timezone
 import datetime
+from datetime import date
 from .Protocol import ProtocolLinkedList, RSDStep, SDStep, TDStep
 
 
@@ -43,7 +44,7 @@ class Feature(models.Model):
 class Event(models.Model):
     step = models.ForeignKey(Step, on_delete=models.CASCADE, related_name="step")
     title = models.CharField(max_length=200)
-    start_time = models.DateTimeField(default=timezone.now,)
+    start_time = models.DateTimeField(default=timezone.now(),)
     minutes = models.IntegerField(default=5)
     notes = models.CharField(max_length=1000)
 

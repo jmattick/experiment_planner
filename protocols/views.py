@@ -5,7 +5,7 @@ from django.shortcuts import get_object_or_404, render
 from django.http import HttpResponse
 from django.views.generic import ListView
 from .Protocol import ProtocolLinkedList, RSDStep, SDStep, TDStep
-
+from .forms import EventForm
 from .models import Event, Protocol, Step
 
 from .utils import Calendar
@@ -47,6 +47,14 @@ def next_month(d):
     next_month = last + timedelta(days=1)
     month = 'month=' + str(next_month.year) + '-' + str(next_month.month)
     return month
+
+
+def create_event(request):
+    form = EventForm()
+    context = {
+        'form': form,
+    }
+    return render(request, 'protocols/new_event.html', context)
 
 
 def event(request, event_id):

@@ -2,7 +2,7 @@ from django.db import models
 from django.urls import reverse
 from django.utils import timezone
 import datetime
-from datetime import date
+from datetime import date, timedelta
 from .Protocol import ProtocolLinkedList, RSDStep, SDStep, TDStep
 
 
@@ -57,8 +57,11 @@ class Event(models.Model):
         return f'<a href="{url}">{self.title}</a>'
 
 
-
-
+class Experiment(models.Model):
+    protocol = models.ForeignKey(Protocol, on_delete=models.CASCADE)
+    earliest_start = models.DateTimeField(default=timezone.now())
+    latest_start = models.DateTimeField(default=timezone.now() + timedelta(days=14))
+    name = models.CharField(max_length=200)
 
 
 

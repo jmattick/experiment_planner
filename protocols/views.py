@@ -5,7 +5,7 @@ from django.shortcuts import get_object_or_404, render
 from django.http import HttpResponse
 from django.views.generic import ListView
 from .Protocol import ProtocolLinkedList, RSDStep, SDStep, TDStep
-from .forms import EventForm
+from .forms import EventForm, ExperimentForm
 from .models import Event, Protocol, Step
 
 from .utils import Calendar
@@ -65,8 +65,12 @@ def event(request, event_id):
 
 
 def scheduler(request):
+    form = ExperimentForm()
     template_name = 'protocols/scheduler.html'
-    return render(request, template_name)
+    context = {
+        'form': form
+    }
+    return render(request, template_name, context)
 
 
 def index(request):

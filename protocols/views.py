@@ -8,7 +8,7 @@ from .Protocol import ProtocolLinkedList, RSDStep, SDStep, TDStep
 from .forms import EventForm, ExperimentForm
 from .models import Event, Experiment, Protocol, Step
 
-from .utils import Calendar
+from .utils import Calendar, ScheduleObject
 
 
 class CalendarView(ListView):
@@ -89,8 +89,35 @@ def scheduler(request):
 def scheduler_options(request, experiment_id):
     template_name = 'protocols/scheduler_options.html'
     experiment = get_object_or_404(Experiment, pk=experiment_id)
+    protocol_ll = protocol_to_protocol_ll(experiment.protocol)
+    num_days = protocol_ll.total_days() #max number of days in protocol
+    start = experiment.earliest_start
+    end = experiment.latest_start + timedelta(days=num_days)
+    sched_len = end - start
+    print(sched_len.days)
+    events = Event.objects.filter(start_time__gte=start, start_time__lte=end)
+    print(events)
+    schedule = []
+    dates = []
+    schedule_objs = []
+    curr = start
+    for i in range(sched_len.days):
+        print(i)
+        dates.append(curr)
+        events_per_day = events.filter(start_time__day=curr.day)
+        t = 0
+        for e in events_per_day:
+            t += int(e.minutes)
+        schedule.append(t)
+        schedule_objs.append(ScheduleObject(curr, t))
+        curr = curr + timedelta(days=1)
+    print(schedule)
+    print(dates)
+    print(schedule_objs)
+
     context = {
-        'experiment': experiment
+        'experiment': experiment,
+        'schedule': schedule_objs
     }
     return render(request, template_name, context)
 
@@ -103,6 +130,7 @@ def index(request):
 
 
 class IndexView(ListView):
+    """Index view containing calendar"""
     template_name = 'protocols/index.html'
     context_object_name = 'protocol_list'
     model = Protocol
@@ -149,3 +177,30 @@ def detail(request, protocol_id):
         protocol.dag.append(str(node) + ': ' + str(v))
 
     return render(request, template_name, {context_object_name: protocol})
+
+
+def protocol_to_protocol_ll(protocol):
+    """Function to convert django protocol model into a ProtocolLinkedLIst"""
+    steps = Step.objects.filter(protocol=protocol)  # get all step associated with protocol
+    protocol_ll = ProtocolLinkedList()  # initialize protocol linked list
+    for s in steps:  # loop through all steps to add to protocol linked list
+        step_text = s.step_text
+        time_min = s.time_min,
+        days_between = s.days_between
+        gap_days = s.gap_days
+        if s.type == "TDS":
+            protocol_ll.add_step(TDStep(step_text, time_min, days_between, gap_days))
+        elif s.type == "RSDS":
+            protocol_ll.add_step(RSDStep(step_text, time_min, days_between, gap_days))
+        else:
+            protocol_ll.add_step(SDStep(step_text, time_min, days_between, gap_days))
+    dag, nodes = protocol_ll.build_DAG()  # store the dag and nodes in variables to be passed
+    protocol.protocol_ll = protocol_ll
+
+    protocol.nodes = nodes
+    protocol.dag = []
+    for node in nodes:
+        v = list(dag[node])
+        v.sort()
+        protocol.dag.append(str(node) + ': ' + str(v))
+    return protocol_ll

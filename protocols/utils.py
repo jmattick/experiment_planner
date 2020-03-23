@@ -39,3 +39,8 @@ class Calendar(HTMLCalendar):
             cal += f'{self.formatweek(week, events)}\n'
         return cal
 
+
+class ScheduleObject():
+    def __init__(self, date=None, score=0):
+        self.date = date
+        self.score = score

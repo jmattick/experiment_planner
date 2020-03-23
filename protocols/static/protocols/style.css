@@ -121,7 +121,9 @@ aside a {
     padding-right: 20px;
 }
 
-
+#scheduler {
+    width: 100%;
+}
 
 @media only screen and (max-width: 799px) {
     aside {

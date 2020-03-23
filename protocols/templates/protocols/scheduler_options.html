@@ -3,13 +3,10 @@
     <h1>Schedule a Protocol:</h1>
     <div id = "scheduler">
         {% block content %}
-        <form method = "post">
-            {% csrf_token %}
-
-                {{form.as_p}}
-
-            <input type="submit" value="Submit">
-        </form>
+        <h2>{{experiment.name}}</h2>
+        <p>{{experiment.protocol}}</p>
+        <p>{{experiment.earliest_start}}</p>
+        <p>{{experiment.latest_start}}</p>
         {% endblock %}
     </div>
 

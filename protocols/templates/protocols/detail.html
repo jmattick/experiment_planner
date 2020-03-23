@@ -36,7 +36,7 @@
             {% endfor %}
 
         </table>
-
+        <div id = "dag_viz" width=100%></div>
         <h2>DAG:</h2>
         <div>
             {% for node in protocol.dag %}
@@ -45,4 +45,11 @@
         </div>
         </div>
     </div>
+<script src="https://d3js.org/d3.v5.min.js"></script>
+<script src="https://unpkg.com/d3-dag@0.2.3"></script>
+<script>
+
+
+</script>
+
 {% include "./footer.html" %}

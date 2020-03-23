@@ -1,5 +1,6 @@
 from django.forms import ModelForm, DateInput
 from .models import Event, Experiment
+from datetime import datetime
 
 
 class EventForm(ModelForm):
@@ -19,8 +20,8 @@ class ExperimentForm(ModelForm):
     class Meta:
         model = Experiment
         widgets = {
-            'earliest_start': DateInput(attrs={'type': 'datetime-local'}, format='%Y-%m-%d'),
-            'latest_start': DateInput(attrs={'type': 'datetime-local'}, format='%Y-%m-%d')
+            'earliest_start': DateInput(attrs={'type': 'date', 'value': datetime.now().strftime('%Y-%m-%d')}, format='%Y-%m-%d'),
+            'latest_start': DateInput(attrs={'type': 'date', 'value': datetime.now().strftime('%Y-%m-%d')}, format='%Y-%m-%d')
         }
         fields = '__all__'
 

@@ -1,12 +1,12 @@
 from datetime import date, datetime, timedelta
 import calendar
 from django.utils.safestring import mark_safe
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import get_object_or_404, redirect, render
 from django.http import HttpResponse
 from django.views.generic import ListView
 from .Protocol import ProtocolLinkedList, RSDStep, SDStep, TDStep
 from .forms import EventForm, ExperimentForm
-from .models import Event, Protocol, Step
+from .models import Event, Experiment, Protocol, Step
 
 from .utils import Calendar
 
@@ -65,10 +65,32 @@ def event(request, event_id):
 
 
 def scheduler(request):
-    form = ExperimentForm()
+    if request.method == 'POST':
+        experiment = Experiment()
+        form = ExperimentForm(request.POST, instance=experiment)
+        print(form)
+        if form.is_valid():
+            experiment = form.save()
+            print(experiment)
+            print(experiment.pk)
+            return redirect('protocols:scheduler_options', experiment_id=experiment.id)
+    else:
+        experiment = Experiment()
+        print('get:')
+        print(experiment.id)
+        form = ExperimentForm(instance=experiment)
     template_name = 'protocols/scheduler.html'
     context = {
         'form': form
+    }
+    return render(request, template_name, context)
+
+
+def scheduler_options(request, experiment_id):
+    template_name = 'protocols/scheduler_options.html'
+    experiment = get_object_or_404(Experiment, pk=experiment_id)
+    context = {
+        'experiment': experiment
     }
     return render(request, template_name, context)
 

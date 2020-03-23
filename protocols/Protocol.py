@@ -38,12 +38,7 @@ class Step:
 
     def days_passed(self):  ##TODO fix this
         """Returns max total days passed in previous chain of steps"""
-        passed = -1
-        curr_step = self
-        while curr_step.prev != None:
-            passed += curr_step.days
-            curr_step = curr_step.prev
-        return passed
+        return self.days + self.gap
 
 
 class SDStep(Step):
@@ -142,11 +137,16 @@ class ProtocolLinkedList:
         new_step.prev = curr
 
     def total_days(self):
-        """Counts the total days of the protocol"""
+        """Counts the maximum total days of the protocol"""
         curr_step = self.head
-        while curr_step.next != None:
+        t = 0
+        while curr_step.next is not None:
             curr_step = curr_step.next
-        return curr_step.days_passed()
+            if curr_step.type() == "TDS":
+                t = curr_step.days_passed()
+            else:
+                t += curr_step.days_passed()
+        return t
 
     def length(self):
         """Returns the number of steps in the protocol"""

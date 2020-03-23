@@ -271,6 +271,11 @@ class ProtocolLinkedList:
         for item in added:
             nodes.append(item)
         nodes.sort()
+        # sort vertices in each node
+        for node in nodes:
+            items = list(G[node])
+            items.sort()
+            G[node] = items
 
         return G, nodes  # return DAG and ordered list of nodes
 

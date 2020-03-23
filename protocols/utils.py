@@ -51,13 +51,12 @@ def build_schedule(start, days, events):
     ##get total time of all events for each day
     curr = start
     for i in range(days):
-        events_per_day = events.filter(start_time__day=curr.day)
+        events_per_day = events.filter(start_time__date=curr)
         t = 0
         for e in events_per_day:
             t += int(e.minutes)
         schedule_objs.append(ScheduleObject(curr, t))
         curr = curr + timedelta(days=1)
-    print(schedule_objs)
     return schedule_objs
 
 
@@ -85,7 +84,6 @@ def protocol_to_protocol_ll(protocol):
         u = node
         if hasattr(node[1], 'data'):
             u = (node[0], node[1].data)
-        print(node[1].data)
         v = list(dag[node])
         v.sort()
         w = []
@@ -96,3 +94,13 @@ def protocol_to_protocol_ll(protocol):
                 w.append((i[0], i[1]))
         protocol.dag.append(str(u) + ': ' + str(w))
     return protocol_ll
+
+
+def score_alignments(protocol_ll, schedule, start_range):
+    dag, nodes = protocol_ll.build_DAG()
+    for node in nodes:
+        print('\n' + str(node[0]) + ', ' + str(node[1]))
+        for n in dag[node]:
+            print(str(n[0]) + ', ' + str(n[1]))
+
+

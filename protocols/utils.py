@@ -96,11 +96,44 @@ def protocol_to_protocol_ll(protocol):
     return protocol_ll
 
 
-def score_alignments(protocol_ll, schedule, start_range):
-    dag, nodes = protocol_ll.build_DAG()
-    for node in nodes:
-        print('\n' + str(node[0]) + ', ' + str(node[1]))
-        for n in dag[node]:
-            print(str(n[0]) + ', ' + str(n[1]))
+def score_alignments(protocol_ll, schedule, start_range, penalty=[1,1,1,1,1,100,100]):
+
+    def score(i):
+        # get dag and list of nodes from protocol linkedlist
+        dag, nodes = protocol_ll.build_DAG()
+        # initialize score of nodes to infinity
+        node_scores = {}
+        for node in nodes:
+            node_scores[node] = float('inf')
+        # loop through nodes in topological order
+        changed = False
+        for node in nodes:
+            if node_scores[node] == float('inf') and not changed:
+                changed = True
+                pen = int(penalty[schedule[node[0] + i].date.weekday()])
+                sch = int(schedule[node[0] + i].score)
+                time = int(node[1].minutes[0])  # TODO why is this a tuple????
+                node_scores[node] = pen * (sch + time)
+            for v in dag[node]:
+                if v[1] is None:
+                    node_scores[v] = float('inf')
+                    final_node = v
+                if not hasattr(v[1], 'minutes'):
+                    new_score = node_scores[node]
+                else:
+                    pen = int(penalty[schedule[v[0] + i].date.weekday()])
+                    sch = int(schedule[v[0] + i].score)
+                    time = int(v[1].minutes[0])
+                    new_score = node_scores[node] + (pen * (sch + time))
+
+                if new_score < node_scores[v]:  # if better path
+                    node_scores[v] = new_score
+        return node_scores[final_node]  # return final score
+    all_scores = []
+    for i in range(start_range):
+        all_scores.append((schedule[i].date, score(i)))
+    return all_scores
+
+
 
 

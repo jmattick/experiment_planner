@@ -8,7 +8,7 @@ from .Protocol import ProtocolLinkedList, RSDStep, SDStep, TDStep
 from .forms import EventForm, ExperimentForm
 from .models import Event, Experiment, Protocol, Step
 
-from .utils import build_schedule, Calendar, protocol_to_protocol_ll, ScheduleObject
+from .utils import build_schedule, Calendar, protocol_to_protocol_ll, score_alignments, ScheduleObject
 
 
 class CalendarView(ListView):
@@ -102,7 +102,7 @@ def scheduler_options(request, experiment_id):
 
     schedule_objs = build_schedule(start, sched_len.days, events)
 
-
+    score_alignments(protocol_ll, schedule_objs, start_range.days)
     context = {
         'experiment': experiment,
         'schedule': schedule_objs

@@ -9,6 +9,7 @@ class Step:
         prev: previous step in protocol or None
         next: next step in protocol or None
         data: information about step
+        minutes: minutes required to complete step
         days: days since previous step, default 1
         details: extra information about protocol
         gap: how many days step can be delayed
@@ -39,6 +40,22 @@ class Step:
     def days_passed(self):  ##TODO fix this
         """Returns max total days passed in previous chain of steps"""
         return self.days + self.gap
+
+    def _is_valid_operand(self, other):
+        return hasattr(other, 'data') and hasattr(other, 'days') and hasattr(other, 'gap') and hasattr(other, 'minutes')
+
+    def __eq__(self, other):
+        if not self._is_valid_operand(other):
+            return NotImplemented
+        return self.data.lower() == other.data.lower() and self.days == other.days and self.gap == other.gap and self.minutes == other.minutes
+
+    def __lt__(self, other):
+        if not self._is_valid_operand(other):
+            return NotImplemented
+        return self.data.lower() < other.data.lower()
+
+    def __hash__(self):
+        return super(Step, self).__hash__()
 
 
 class SDStep(Step):
@@ -199,8 +216,8 @@ class ProtocolLinkedList:
                         if latest_day_next_step - (
                                 d2 + i) >= step.days:  # if the gap between the last day is larger than the days between the repeating step
                             # setup tuples with day and step for edge to repeating step
-                            u = (d, step.data)
-                            v = (d2 + i, step.data)
+                            u = (d, step)
+                            v = (d2 + i, step)
                             # add edge to graph
                             if u in G:
                                 G[u].add(v)
@@ -212,8 +229,8 @@ class ProtocolLinkedList:
                                 add_node(G, d2 + i, step)  # call function on step with next day
                         if d2 + i >= step.next.days_from_start:  # if next day is greater than first day to start next step
                             # setup tuples with day and step for edge to next step
-                            u = (d, step.data)
-                            v = (d2 + i, step.next.data)
+                            u = (d, step)
+                            v = (d2 + i, step.next)
                             # add edge to graph
                             if u in G:
                                 G[u].add(v)
@@ -226,8 +243,8 @@ class ProtocolLinkedList:
             else:  # for all other steps
                 for i in range(step.gap + 1):  # loop through gap values
                     # setup tuples with day and step for edge
-                    u = (d, step.data)
-                    v = (d2 + i, step.next.data)
+                    u = (d, step)
+                    v = (d2 + i, step.next)
                     # add edge to graph
                     if u in G:
                         G[u].add(v)
@@ -237,11 +254,15 @@ class ProtocolLinkedList:
                         G[u].add(v)
                     if (d2 + i, step.next) not in G:
                         add_node(G, d2 + i, step.next)  # call funtion on next step
+        #
+        # def sort_nodes(nodes):
+        #
+
 
         add_node(G, 0, curr)  # call function on first node in protocol
         # sort nodes into a list
         nodes = list(nodes)
-        nodes.sort()
+        # nodes.sort()
         # add terminal node to any leaf nodes
         added = []
         for node in nodes:
@@ -253,7 +274,7 @@ class ProtocolLinkedList:
         # add added items to nodes list
         for item in added:
             nodes.append(item)
-        nodes.sort()
+        # nodes.sort()
 
         return G, nodes  # return DAG and ordered list of nodes
 

@@ -44,3 +44,18 @@ class ScheduleObject():
     def __init__(self, date=None, score=0):
         self.date = date
         self.score = score
+
+
+def build_schedule(start, days, events):
+    schedule_objs = []
+    ##get total time of all events for each day
+    curr = start
+    for i in range(days):
+        events_per_day = events.filter(start_time__day=curr.day)
+        t = 0
+        for e in events_per_day:
+            t += int(e.minutes)
+        schedule_objs.append(ScheduleObject(curr, t))
+        curr = curr + timedelta(days=1)
+    print(schedule_objs)
+    return schedule_objs

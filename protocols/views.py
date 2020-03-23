@@ -8,7 +8,7 @@ from .Protocol import ProtocolLinkedList, RSDStep, SDStep, TDStep
 from .forms import EventForm, ExperimentForm
 from .models import Event, Experiment, Protocol, Step
 
-from .utils import Calendar, ScheduleObject
+from .utils import build_schedule, Calendar, ScheduleObject
 
 
 class CalendarView(ListView):
@@ -91,29 +91,15 @@ def scheduler_options(request, experiment_id):
     experiment = get_object_or_404(Experiment, pk=experiment_id)
     protocol_ll = protocol_to_protocol_ll(experiment.protocol)
     num_days = protocol_ll.total_days() #max number of days in protocol
+    start_range = experiment.latest_start - experiment.earliest_start
+    print(start_range.days)
     start = experiment.earliest_start
-    end = experiment.latest_start + timedelta(days=num_days)
+    end = experiment.latest_start + timedelta(days=num_days + 1)
     sched_len = end - start
-    print(sched_len.days)
     events = Event.objects.filter(start_time__gte=start, start_time__lte=end)
-    print(events)
-    schedule = []
-    dates = []
-    schedule_objs = []
-    curr = start
-    for i in range(sched_len.days):
-        print(i)
-        dates.append(curr)
-        events_per_day = events.filter(start_time__day=curr.day)
-        t = 0
-        for e in events_per_day:
-            t += int(e.minutes)
-        schedule.append(t)
-        schedule_objs.append(ScheduleObject(curr, t))
-        curr = curr + timedelta(days=1)
-    print(schedule)
-    print(dates)
-    print(schedule_objs)
+
+    schedule_objs = build_schedule(start, sched_len.days, events)
+
 
     context = {
         'experiment': experiment,

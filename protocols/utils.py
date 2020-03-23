@@ -82,7 +82,17 @@ def protocol_to_protocol_ll(protocol):
     protocol.nodes = nodes
     protocol.dag = []
     for node in nodes:
+        u = node
+        if hasattr(node[1], 'data'):
+            u = (node[0], node[1].data)
+        print(node[1].data)
         v = list(dag[node])
         v.sort()
-        protocol.dag.append(str(node) + ': ' + str(v))
+        w = []
+        for i in v:
+            if hasattr(i[1], 'data'):
+                w.append((i[0], i[1].data))
+            else:
+                w.append((i[0], i[1]))
+        protocol.dag.append(str(u) + ': ' + str(w))
     return protocol_ll

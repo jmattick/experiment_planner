@@ -254,15 +254,11 @@ class ProtocolLinkedList:
                         G[u].add(v)
                     if (d2 + i, step.next) not in G:
                         add_node(G, d2 + i, step.next)  # call funtion on next step
-        #
-        # def sort_nodes(nodes):
-        #
-
 
         add_node(G, 0, curr)  # call function on first node in protocol
         # sort nodes into a list
         nodes = list(nodes)
-        # nodes.sort()
+        nodes.sort()
         # add terminal node to any leaf nodes
         added = []
         for node in nodes:
@@ -274,7 +270,7 @@ class ProtocolLinkedList:
         # add added items to nodes list
         for item in added:
             nodes.append(item)
-        # nodes.sort()
+        nodes.sort()
 
         return G, nodes  # return DAG and ordered list of nodes
 

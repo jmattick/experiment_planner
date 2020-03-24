@@ -32,18 +32,11 @@
                 {% endfor %}
 
             </table>
-            <table id = "schedule">
-                <tr>
-                    <th><strong>Date</strong></th>
-                    <th><strong>Score</strong></th>
-                </tr>
-                {% for day in schedule %}
-                    <tr>
-                        <td>{{day.date}}</td>
-                        <td>{{day.score}}</td>
-                    </tr>
-                {% endfor %}
-            </table>
+
+            <div id = "containerChart">
+                <h2>Score for each start date:</h2>
+                {{graph | safe}}
+            </div>
             {% endblock %}
 
         </div>

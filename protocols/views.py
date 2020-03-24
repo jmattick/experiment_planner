@@ -1,5 +1,7 @@
 from datetime import date, datetime, timedelta
 import calendar
+import plotly.graph_objects as go
+import plotly.offline as opy
 from django.utils.safestring import mark_safe
 from django.shortcuts import get_object_or_404, redirect, render
 from django.http import HttpResponse
@@ -7,7 +9,7 @@ from django.views.generic import ListView
 from .Protocol import ProtocolLinkedList, RSDStep, SDStep, TDStep
 from .forms import EventForm, ExperimentForm
 from .models import Event, Experiment, Protocol, Step
-
+import json
 from .utils import build_schedule, Calendar, protocol_to_protocol_ll, score_alignments, ScheduleObject
 
 
@@ -102,10 +104,21 @@ def scheduler_options(request, experiment_id):
 
     schedule_objs = build_schedule(start, sched_len.days, events)
 
-    score_alignments(protocol_ll, schedule_objs, start_range.days)
+    scores = score_alignments(protocol_ll, schedule_objs, start_range.days)
+    formated_scores = []
+    x = []
+    y = []
+    for score in scores:
+        x.append(str(score[0].date()))
+        y.append(score[1])
+
+    fig = go.Figure([go.Bar(x=x, y=y)])
+    div = opy.plot(fig, auto_open=False, output_type='div')
+
     context = {
         'experiment': experiment,
-        'schedule': schedule_objs
+        'schedule': schedule_objs,
+        'graph': div
     }
     return render(request, template_name, context)
 

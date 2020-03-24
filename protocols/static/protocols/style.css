@@ -30,6 +30,12 @@ body {
 
 }
 
+#schedule-btn {
+    vertical-align: middle;
+    padding: 10px;
+    margin-right: 20px;
+}
+
 header {
     display: flex;
     flex-direction: row;
@@ -38,7 +44,7 @@ header {
 
 header > h1 {
     padding: 5px 0px 5px 0px;
-    margin: 0px 10px;
+    margin: 0px 0px;
     /*color: #f6d51f;*/
     color: var(--nav-font-color);
     font-family: Tahoma, Geneva, sans-serif;
@@ -52,6 +58,10 @@ h1 a {
 a {
     text-decoration: none;
     color: var(--body-font-color);
+}
+
+a:hover {
+    text-shadow: 2px 2px 8px gray;
 }
 
 table {

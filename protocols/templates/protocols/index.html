@@ -3,7 +3,27 @@
     <div class = "main">
         <aside>
             <div>
-                <h3>Current Protocols:</h3>
+                <h3>Current Tasks:</h3>
+                {% if events %}
+                    <!--<table class="white-background">
+                        <tr>
+                            <th><strong>Protocol</strong></th>
+                            <th><strong>Days</strong></th>
+                        </tr>-->
+                    <ul>
+                        {% for event in events %}
+                            <li>
+                                <h3><a href="{% url 'protocols:event_edit' event.id %}">{{event.title}}</a></h3>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                        <!--</table>-->
+                {% else %}
+                    <p>There are no steps scheduled today</p>
+                {% endif %}
+            </div>
+            <div>
+                <h3>Protocols:</h3>
             {% if protocol_list %}
                 <!--<table class="white-background">
                     <tr>
@@ -22,9 +42,7 @@
                 <p>No protocols are available</p>
             {% endif %}
             </div>
-            <div>
-                <h3>Other Content:</h3>
-            </div>
+
         </aside>
 
         <div class = "calendar-container">

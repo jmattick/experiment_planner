@@ -139,6 +139,8 @@ class IndexView(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['protocol_list'] = Protocol.objects.all()
+        events = Event.objects.filter(start_time__date=datetime.now())
+        context['events'] = events
         d = get_date(self.request.GET.get('month', None))
         cal = Calendar(d.year, d.month)
         html_cal = cal.formatmonth(withyear=True)

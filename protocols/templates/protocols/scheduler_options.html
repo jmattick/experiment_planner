@@ -1,8 +1,8 @@
 {% include "./header.html" %}
 <div class = "main">
-    <div>
-        <h1>Schedule an Experiment:</h1>
+
         <div id = "scheduler">
+            <h1>Schedule an Experiment:</h1>
             {% block content %}
             <h2>{{experiment.name}}</h2>
             <p>{{experiment.protocol}}</p>
@@ -33,14 +33,13 @@
 
             </table>
 
-            <div id = "containerChart">
-                <h2>Score for each start date:</h2>
-                {{graph | safe}}
-            </div>
+
             {% endblock %}
 
         </div>
-    </div>
+        <div id = "containerChart">
+                {{graph | safe}}
+            </div>
 
 
 </div>

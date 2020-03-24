@@ -40,7 +40,7 @@ class Calendar(HTMLCalendar):
         return cal
 
 
-class ScheduleObject():
+class ScheduleObject:
     def __init__(self, date=None, score=0):
         self.date = date
         self.score = score
@@ -48,7 +48,7 @@ class ScheduleObject():
 
 def build_schedule(start, days, events):
     schedule_objs = []
-    ##get total time of all events for each day
+    # get total time of all events for each day
     curr = start
     for i in range(days):
         events_per_day = events.filter(start_time__date=curr)
@@ -96,15 +96,15 @@ def protocol_to_protocol_ll(protocol):
     return protocol_ll
 
 
-def score_alignments(protocol_ll, schedule, start_range, penalty=[1,1,1,1,1,100,100]):
+def score_alignments(protocol_ll, schedule, start_range, penalty=(1, 1, 1, 1, 1, 100, 100)):
 
     def score(i):
-        # get dag and list of nodes from protocol linkedlist
         dag, nodes = protocol_ll.build_DAG()
         # initialize score of nodes to infinity
         node_scores = {}
         for node in nodes:
             node_scores[node] = float('inf')
+        final_node = [0]
         # loop through nodes in topological order
         changed = False
         for node in nodes:
@@ -112,7 +112,7 @@ def score_alignments(protocol_ll, schedule, start_range, penalty=[1,1,1,1,1,100,
                 changed = True
                 pen = int(penalty[schedule[node[0] + i].date.weekday()])
                 sch = int(schedule[node[0] + i].score)
-                time = int(node[1].minutes[0])  # TODO why is this a tuple????
+                time = int(node[1].minutes[0]) # TODO Why is this a tuple???
                 node_scores[node] = pen * (sch + time)
             for v in dag[node]:
                 if v[1] is None:
@@ -125,7 +125,6 @@ def score_alignments(protocol_ll, schedule, start_range, penalty=[1,1,1,1,1,100,
                     sch = int(schedule[v[0] + i].score)
                     time = int(v[1].minutes[0])
                     new_score = node_scores[node] + (pen * (sch + time))
-
                 if new_score < node_scores[v]:  # if better path
                     node_scores[v] = new_score
         return node_scores[final_node]  # return final score

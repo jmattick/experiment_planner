@@ -113,6 +113,15 @@ def scheduler_options(request, experiment_id):
         y.append(score[1])
 
     fig = go.Figure([go.Bar(x=x, y=y)])
+    fig.update_layout(
+        title={
+            'text': 'Scores for each start date',
+            'y':0.9,
+            'x':0.5,
+            'xanchor': 'center',
+            'yanchor': 'top'
+        }
+    )
     div = opy.plot(fig, auto_open=False, output_type='div')
 
     context = {
@@ -157,9 +166,12 @@ def detail(request, protocol_id):
     context_object_name = 'protocol'
     protocol = get_object_or_404(Protocol, pk=protocol_id)
     steps = Step.objects.filter(protocol=protocol) #get all step associated with protocol
-    protocol_to_protocol_ll(protocol) #updates dag in protocol
+    protocol_ll = protocol_to_protocol_ll(protocol) #updates dag in protocol
+    context = {
+        'protocol': protocol
+    }
 
-    return render(request, template_name, {context_object_name: protocol})
+    return render(request, template_name, context)
 
 
 

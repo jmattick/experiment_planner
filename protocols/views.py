@@ -10,7 +10,7 @@ from .Protocol import ProtocolLinkedList, RSDStep, SDStep, TDStep
 from .forms import EventForm, ExperimentForm
 from .models import Event, Experiment, Protocol, Step
 import json
-from .utils import build_schedule, Calendar, protocol_to_protocol_ll, score_alignments, ScheduleObject
+from .utils import build_schedule, Calendar, format_dag_json, protocol_to_protocol_ll, score_alignments, ScheduleObject
 
 
 class CalendarView(ListView):
@@ -167,8 +167,12 @@ def detail(request, protocol_id):
     protocol = get_object_or_404(Protocol, pk=protocol_id)
     steps = Step.objects.filter(protocol=protocol) #get all step associated with protocol
     protocol_ll = protocol_to_protocol_ll(protocol) #updates dag in protocol
+    dag, nodes = protocol_ll.build_DAG()
+    json = format_dag_json(dag, nodes)
     context = {
-        'protocol': protocol
+        'protocol': protocol,
+        'json': json
+
     }
 
     return render(request, template_name, context)

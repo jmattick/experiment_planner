@@ -229,3 +229,7 @@ aside a {
     background-color: var(--event-bg-color);
     margin: 2px 0px;
 }
+
+#today {
+    font-weight: bold;
+}

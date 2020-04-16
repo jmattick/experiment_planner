@@ -2,7 +2,8 @@ from datetime import datetime, timedelta
 from calendar import HTMLCalendar
 from .Protocol import ProtocolLinkedList, RSDStep, SDStep, TDStep
 from .models import Event, Step
-
+from heapq import heappush, heappop
+from timeit import default_timer
 
 class Calendar(HTMLCalendar):
     def __init__(self, year=None, month=None):
@@ -20,7 +21,10 @@ class Calendar(HTMLCalendar):
         trans = t / 480
         if trans > 1:
             trans = 1
+
         if day != 0:
+            if self.month == datetime.today().month and day == datetime.today().day:
+                return f"<td style='background-color:rgba(223,76,115,{trans})'><span id = 'today' class='date'>{day}</span><ul> {d} </ul></td>"
             return f"<td style='background-color:rgba(223,76,115,{trans})'><span class='date'>{day}</span><ul> {d} </ul></td>"
         return '<td></td>'
 
@@ -60,6 +64,38 @@ def build_schedule(start, days, events):
     return schedule_objs
 
 
+def format_dag_json(dag, nodes):
+    """Function to format the dag, nodes output from build_DAG() into json for D3"""
+    json_nodes = [] # { "id": 1, "name": node}, ...
+    json_links = [] # {"source": 1, "target": 2}, ...
+    print(nodes)
+    for i in range(len(nodes)):
+        node = nodes[i]
+        json_n = {}
+        json_n["id"] = i
+        json_n["name"] = node[1].data
+        json_nodes.append(json_n)
+        for v in dag[node]:
+            if v not in nodes:
+                nodes.append(v)
+                j = nodes.index(v)
+                n = {}
+                n["id"] = j
+                n["name"] = "End"
+                json_nodes.append(n)
+
+            j = nodes.index(v)
+            json_l = {}
+            json_l["source"] = i
+            json_l["target"] = j
+            json_links.append(json_l)
+    json_dag = {}
+    json_dag["nodes"] = json_nodes
+    json_dag["links"] = json_links
+    print(json_dag)
+    return json_dag
+
+
 def protocol_to_protocol_ll(protocol):
     """Function to convert django protocol model into a ProtocolLinkedLIst"""
     steps = Step.objects.filter(protocol=protocol)  # get all step associated with protocol
@@ -76,6 +112,7 @@ def protocol_to_protocol_ll(protocol):
         else:
             protocol_ll.add_step(SDStep(step_text, time_min, days_between, gap_days))
     dag, nodes = protocol_ll.build_DAG()  # store the dag and nodes in variables to be passed
+
     protocol.protocol_ll = protocol_ll
 
     protocol.nodes = nodes
@@ -84,6 +121,8 @@ def protocol_to_protocol_ll(protocol):
         u = node
         if hasattr(node[1], 'data'):
             u = (node[0], node[1].data)
+        if node not in dag:
+            continue
         v = list(dag[node])
         v.sort()
         w = []
@@ -99,6 +138,7 @@ def protocol_to_protocol_ll(protocol):
 def score_alignments(protocol_ll, schedule, start_range, penalty=(1, 1, 1, 1, 1, 100, 100)):
 
     def score(i):
+        """Function using a topological shortest path algorithm"""
         dag, nodes = protocol_ll.build_DAG()
         # initialize score of nodes to infinity
         node_scores = {}
@@ -112,7 +152,7 @@ def score_alignments(protocol_ll, schedule, start_range, penalty=(1, 1, 1, 1, 1,
                 changed = True
                 pen = int(penalty[schedule[node[0] + i].date.weekday()])
                 sch = int(schedule[node[0] + i].score)
-                time = int(node[1].minutes[0]) # TODO Why is this a tuple???
+                time = int(node[1].minutes[0])
                 node_scores[node] = pen * (sch + time)
             for v in dag[node]:
                 if v[1] is None:
@@ -128,10 +168,71 @@ def score_alignments(protocol_ll, schedule, start_range, penalty=(1, 1, 1, 1, 1,
                 if new_score < node_scores[v]:  # if better path
                     node_scores[v] = new_score
         return node_scores[final_node]  # return final score
+
+    def score_dijkstra(i):
+        """Function using a dijkstra's shortest path algorithm"""
+        dag, nodes = protocol_ll.build_DAG()
+        distances = {node: float('inf') for node in nodes}  # initialize distances to inf
+        distances[nodes[0]] = 0  # set first node dist to 0
+        pq = [(0, nodes[0])] #initialize priority queue
+
+        while len(pq) > 0:
+            curr_d, curr_u = heappop(pq) # get node with lowest distance
+            if curr_d > distances[curr_u]:  # if distance is greater than lowerst distance
+                continue  # continue
+            if curr_u not in dag:
+                continue
+            for v in dag[curr_u]:  # for adjacent v in graph
+                if v[1] is None: #if terminal node
+                    if v not in nodes:
+                        nodes.append(v)
+                        distances[v] = float('inf')
+                    weight = 0
+                else:
+                    pen = int(penalty[schedule[v[0] + i].date.weekday()])
+                    sch = int(schedule[v[0] + i].score)
+                    time = int(v[1].minutes[0])
+                    weight = pen * (sch + time)
+                dist = curr_d + weight
+
+                # is dist shorter than current shortest dist?
+                if dist < distances[v]:
+                    distances[v] = dist  # update distance
+                    heappush(pq, (dist, v))  # add node to priority queue
+        return distances[nodes[-1]]  # return distance of terminal node
+
     all_scores = []
+    times = []
+    all_scores_dijkstra = []
+    times_dijkstra = []
+    dijkstra_faster = []
+    z = open("runtime_tests.txt", "a")
+    z.write(str(datetime.now()) + '\n')
+    z.write(str(protocol_ll.build_DAG)+ '\n')
+    z.write("date\ttopological_score\ttopological_time\tdijkstra_score\tdijkstra_time\tdijkstra_faster\n")
     for i in range(start_range):
+        start = default_timer()
         all_scores.append((schedule[i].date, score(i)))
-    return all_scores
+        mid = default_timer()
+        all_scores_dijkstra.append((schedule[i].date, score_dijkstra(i)))
+        end = default_timer()
+        times.append(mid - start)
+        times_dijkstra.append(end-mid)
+        if (end-mid) < (mid -start):
+            dijkstra_faster.append(True)
+        else:
+            dijkstra_faster.append(False)
+        z.write(str(schedule[i].date.strftime('%y-%m-%d')) + '\t' + str(all_scores[-1][1]) + '\t' + str(times[-1]) + '\t' + str(all_scores_dijkstra[-1][1]) + '\t' + str(times_dijkstra[-1]) + '\t' + str(dijkstra_faster[-1]) + '\n')
+    print('topological:')
+    for item in all_scores:
+        print(item)
+    print(times)
+    print('dijkstra:')
+    for item in all_scores_dijkstra:
+        print(item)
+    print(times_dijkstra)
+    print(dijkstra_faster)
+    return all_scores_dijkstra
 
 
 

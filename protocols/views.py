@@ -6,8 +6,11 @@ from django.utils.safestring import mark_safe
 from django.shortcuts import get_object_or_404, redirect, render
 from django.http import HttpResponse
 from django.views.generic import ListView
+from django.views.generic.edit import CreateView, UpdateView
+from django.db import transaction
+from django.urls import reverse_lazy
 from .Protocol import ProtocolLinkedList, RSDStep, SDStep, TDStep
-from .forms import EventForm, ExperimentForm
+from .forms import *
 from .models import Event, Experiment, Protocol, Step
 import json
 from .utils import build_schedule, Calendar, format_dag_json, protocol_to_protocol_ll, score_alignments, ScheduleObject
@@ -178,4 +181,30 @@ def detail(request, protocol_id):
     return render(request, template_name, context)
 
 
+class ProtocolCreate(CreateView):
+    model = Protocol
+    template_name = 'protocols/add_protocol.html'
+    fields = ['name', 'description']
+    success_url = None
 
+    def get_context_data(self, **kwargs):
+        data = super(ProtocolCreate, self).get_context_data(**kwargs)
+        if self.request.POST:
+            data['steps'] = StepFormSet(self.request.POST)
+        else:
+            data['steps'] = StepFormSet()
+        return data
+
+    def form_valid(self, form):
+        context = self.get_context_data()
+        steps = context['steps']
+        with transaction.atomic():
+            self.object = form.save()
+
+            if steps.is_valid():
+                steps.instance = self.object
+                steps.save()
+        return super(ProtocolCreate, self).form_valid(form)
+
+    def get_success_url(self):
+        return reverse_lazy('protocols:detail', kwargs={'protocol_id': self.object.pk})

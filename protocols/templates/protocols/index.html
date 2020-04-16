@@ -36,11 +36,16 @@
                             <h3><a href="{% url 'protocols:detail' protocol.id %}">{{protocol.name}}</a></h3>
                         </li>
                     {% endfor %}
+                        <li>
+                            <h3><a href = "{% url 'protocols:add_protocol' %}">+ add protocol</a></h3>
+                        </li>
                 </ul>
                     <!--</table>-->
             {% else %}
                 <p>No protocols are available</p>
+                <a href = "{% url 'protocols:add_protocol' %}">+ add protocol</a>
             {% endif %}
+
             </div>
 
         </aside>

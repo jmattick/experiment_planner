@@ -2,7 +2,7 @@
     <div id = "details" class = "main">
         <div class = "white-background">
         <h1>{{protocol.name}}</h1>
-
+            <button><a href = "{% url 'protocols:edit_protocol' protocol.id %}">Edit</a></button>
         <p>{{protocol.description}}</p>
 
         <table class="white-background">

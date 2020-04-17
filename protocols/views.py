@@ -6,7 +6,7 @@ from django.utils.safestring import mark_safe
 from django.shortcuts import get_object_or_404, redirect, render
 from django.http import HttpResponse
 from django.views.generic import ListView
-from django.views.generic.edit import CreateView, UpdateView
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.db import transaction
 from django.urls import reverse_lazy
 from .Protocol import ProtocolLinkedList, RSDStep, SDStep, TDStep
@@ -208,3 +208,38 @@ class ProtocolCreate(CreateView):
 
     def get_success_url(self):
         return reverse_lazy('protocols:detail', kwargs={'protocol_id': self.object.pk})
+
+
+class ProtocolUpdate(UpdateView):
+    model = Protocol
+    template_name = 'protocols/add_protocol.html'
+    fields = ['name', 'description']
+    success_url = None
+
+    def get_context_data(self, **kwargs):
+        data = super(ProtocolUpdate, self).get_context_data(**kwargs)
+        if self.request.POST:
+            data['steps'] = StepFormSet(self.request.POST, instance=self.object)
+        else:
+            data['steps'] = StepFormSet(instance=self.object)
+        return data
+
+    def form_valid(self, form):
+        context = self.get_context_data()
+        steps = context['steps']
+        with transaction.atomic():
+            self.object = form.save()
+
+            if steps.is_valid():
+                steps.instance = self.object
+                steps.save()
+        return super(ProtocolUpdate, self).form_valid(form)
+
+    def get_success_url(self):
+        return reverse_lazy('protocols:detail', kwargs={'protocol_id': self.object.pk})
+
+
+class ProtocolDelete(DeleteView):
+    model = Protocol
+    template_name = 'protocols/delete_protocol.html'
+    success_url = reverse_lazy('protocols:index')

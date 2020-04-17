@@ -5,9 +5,18 @@
             <h1>Schedule an Experiment:</h1>
             {% block content %}
             <h2>{{experiment.name}}</h2>
-            <p>{{experiment.protocol}}</p>
+<!--            <p>{{experiment.protocol}}</p>
             <p>{{experiment.earliest_start}}</p>
-            <p>{{experiment.latest_start}}</p>
+            <p>{{experiment.latest_start}}</p>-->
+
+            <form method = "post">
+                {% csrf_token %}
+
+                    {{form.as_p}}
+
+                <input type="submit" value="Submit"><input type="submit" name="add_calendar" value="Add to Calendar">
+            </form>
+
             <table class="white-background">
                 <tr>
                     <th><strong>Step</strong></th>

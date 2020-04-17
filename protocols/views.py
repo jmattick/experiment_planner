@@ -127,10 +127,24 @@ def scheduler_options(request, experiment_id):
     )
     div = opy.plot(fig, auto_open=False, output_type='div')
 
+    # Form
+    if request.method == 'POST':
+        form = ExperimentForm(request.POST, instance=experiment)
+        if form.is_valid():
+            experiment = form.save()
+            if 'add_calendar' in request.POST:
+                print('add to calendar')
+                #TODO add to calendar logic here
+                return redirect('protocols:index')
+            return redirect('protocols:scheduler_options', experiment_id=experiment.id)
+    else:
+        form = ExperimentForm(instance=experiment)
+    # Context
     context = {
         'experiment': experiment,
         'schedule': schedule_objs,
-        'graph': div
+        'graph': div,
+        'form': form
     }
     return render(request, template_name, context)
 

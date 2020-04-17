@@ -37,6 +37,7 @@ class Feature(models.Model):
 
 class Event(models.Model):
     step = models.ForeignKey(Step, on_delete=models.CASCADE, related_name="step")
+    experiment_id = models.CharField(max_length=200)
     title = models.CharField(max_length=200)
     start_time = models.DateTimeField(default=timezone.now(),)
     minutes = models.IntegerField(default=5)
@@ -56,6 +57,8 @@ class Experiment(models.Model):
     earliest_start = models.DateTimeField(default=timezone.now())
     latest_start = models.DateTimeField(default=timezone.now() + timedelta(days=14))
     name = models.CharField(max_length=200)
+    date = models.DateTimeField(default=timezone.now())
+
 
 
 

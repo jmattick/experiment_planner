@@ -22,7 +22,8 @@ class ExperimentForm(ModelForm):
         model = Experiment
         widgets = {
             'earliest_start': DateInput(attrs={'type': 'date', 'value': datetime.now().strftime('%Y-%m-%d')}, format='%Y-%m-%d'),
-            'latest_start': DateInput(attrs={'type': 'date', 'value': datetime.now().strftime('%Y-%m-%d')}, format='%Y-%m-%d')
+            'latest_start': DateInput(attrs={'type': 'date', 'value': datetime.now().strftime('%Y-%m-%d')}, format='%Y-%m-%d'),
+            'date': DateInput(attrs={'type': 'date', 'value': datetime.now().strftime('%Y-%m-%d')}, format='%Y-%m-%d')
         }
         fields = '__all__'
 

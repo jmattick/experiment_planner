@@ -13,7 +13,7 @@ from .Protocol import ProtocolLinkedList, RSDStep, SDStep, TDStep
 from .forms import *
 from .models import Event, Experiment, Protocol, Step
 import json
-from .utils import build_schedule, Calendar, format_dag_json, protocol_to_protocol_ll, score_alignments, ScheduleObject
+from .utils import *
 
 
 class CalendarView(ListView):
@@ -103,6 +103,7 @@ def scheduler_options(request, experiment_id):
     start = experiment.earliest_start
     end = experiment.latest_start + timedelta(days=num_days + 1)
     sched_len = end - start
+    print('len:  ' + str(num_days + 1))
     events = Event.objects.filter(start_time__gte=start, start_time__lte=end)
 
     schedule_objs = build_schedule(start, sched_len.days, events)
@@ -134,7 +135,11 @@ def scheduler_options(request, experiment_id):
             experiment = form.save()
             if 'add_calendar' in request.POST:
                 print('add to calendar')
+                schedule_objs_events = build_schedule(experiment.date, sched_len.days, events)
+
                 #TODO add to calendar logic here
+                d, n = protocol_ll.build_DAG()
+                add_experiment_to_calendar(experiment, d, n, schedule_objs_events)
                 return redirect('protocols:index')
             return redirect('protocols:scheduler_options', experiment_id=experiment.id)
     else:

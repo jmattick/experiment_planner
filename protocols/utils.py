@@ -135,6 +135,41 @@ def protocol_to_protocol_ll(protocol):
     return protocol_ll
 
 
+def score_dijkstra(dag, nodes, schedule, penalty=(1, 1, 1, 1, 1, 100, 100)):
+    """Function using a dijkstra's shortest path algorithm"""
+    distances = {node: float('inf') for node in nodes}  # initialize distances to inf
+    parents = {node: None for node in nodes}  # initialize parent dictionary
+    distances[nodes[0]] = 0  # set first node dist to 0
+    pq = [(0, nodes[0])]  # initialize priority queue
+
+    while len(pq) > 0:
+        curr_d, curr_u = heappop(pq)  # get node with lowest distance
+        if curr_d > distances[curr_u]:  # if distance is greater than lowerst distance
+            continue  # continue
+        if curr_u not in dag:
+            continue
+        for v in dag[curr_u]:  # for adjacent v in graph
+            if v[1] is None:  # if terminal node
+                if v not in nodes:
+                    nodes.append(v)
+                    distances[v] = float('inf')
+                weight = 0
+            else:
+                pen = int(penalty[schedule[v[0]].date.weekday()])
+                sch = int(schedule[v[0]].score)
+                time = int(v[1].minutes[0])
+                weight = pen * (sch + time)
+            dist = curr_d + weight
+
+            # is dist shorter than current shortest dist?
+            if dist < distances[v]:
+                distances[v] = dist  # update distance
+                parents[v] = curr_u  # update parents
+                heappush(pq, (dist, v))  # add node to priority queue
+    return distances[nodes[-1]], parents, nodes[-1]  # return distance of terminal node
+
+
+
 def score_alignments(protocol_ll, schedule, start_range, penalty=(1, 1, 1, 1, 1, 100, 100)):
 
     def score(i):
@@ -206,10 +241,10 @@ def score_alignments(protocol_ll, schedule, start_range, penalty=(1, 1, 1, 1, 1,
     all_scores_dijkstra = []
     times_dijkstra = []
     dijkstra_faster = []
-    z = open("runtime_tests.txt", "a")
-    z.write(str(datetime.now()) + '\n')
-    z.write(str(protocol_ll.build_DAG)+ '\n')
-    z.write("date\ttopological_score\ttopological_time\tdijkstra_score\tdijkstra_time\tdijkstra_faster\n")
+    # z = open("runtime_tests.txt", "a")
+    # z.write(str(datetime.now()) + '\n')
+    # z.write(str(protocol_ll.build_DAG)+ '\n')
+    # z.write("date\ttopological_score\ttopological_time\tdijkstra_score\tdijkstra_time\tdijkstra_faster\n")
     for i in range(start_range):
         start = default_timer()
         all_scores.append((schedule[i].date, score(i)))
@@ -222,18 +257,17 @@ def score_alignments(protocol_ll, schedule, start_range, penalty=(1, 1, 1, 1, 1,
             dijkstra_faster.append(True)
         else:
             dijkstra_faster.append(False)
-        z.write(str(schedule[i].date.strftime('%y-%m-%d')) + '\t' + str(all_scores[-1][1]) + '\t' + str(times[-1]) + '\t' + str(all_scores_dijkstra[-1][1]) + '\t' + str(times_dijkstra[-1]) + '\t' + str(dijkstra_faster[-1]) + '\n')
-    print('topological:')
-    for item in all_scores:
-        print(item)
-    print(times)
-    print('dijkstra:')
-    for item in all_scores_dijkstra:
-        print(item)
-    print(times_dijkstra)
+        # z.write(str(schedule[i].date.strftime('%y-%m-%d')) + '\t' + str(all_scores[-1][1]) + '\t' + str(times[-1]) + '\t' + str(all_scores_dijkstra[-1][1]) + '\t' + str(times_dijkstra[-1]) + '\t' + str(dijkstra_faster[-1]) + '\n')
     print(dijkstra_faster)
     return all_scores_dijkstra
 
 
+def add_experiment_to_calendar(experiment, dag, nodes, schedule):
+    _, parents, final = score_dijkstra(dag, nodes, schedule)
 
+    curr = parents[final]
+    while curr is not None:
+        # TODO get steps to add events
+        print(curr)
+        curr = parents[curr]
 

@@ -1,7 +1,6 @@
 {% include "./header.html" %}
 
-<div class = "">
-    <h1>Create Protocol</h1>
+<div class = "form">
     <form action="" method="post">{% csrf_token %}
         {{ form.as_p }}
         <table class="table">
@@ -34,7 +33,10 @@
             {% endfor %}
         </table>
         <input type="submit" value="Save"/>
+        {% if object %}
         <a href="{% url 'protocols:delete_protocol' object.pk %}">delete</a>
+        <a href = "{% url 'protocols:detail' object.pk %}">Back</a>
+        {% endif %}
     </form>
 </div>
 

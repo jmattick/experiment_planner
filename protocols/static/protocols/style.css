@@ -136,7 +136,7 @@ aside a {
 }
 
 #containerChart {
-    width: 45%
+    width: 45%;
 }
 
 @media only screen and (max-width: 799px) {
@@ -148,6 +148,14 @@ aside a {
     .calendar-container {
         width: 100%;
         /*flex-grow: 2;*/
+    }
+    #scheduler {
+        width: 100%;
+    }
+
+    #containerChart {
+        width: 100%;
+        min-height: 200px;
     }
 }
 
@@ -233,3 +241,8 @@ aside a {
 #today {
     font-weight: bold;
 }
+
+.form {
+    margin: 0 20px;
+}
+

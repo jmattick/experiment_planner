@@ -1,13 +1,14 @@
 {% load static %}
 
 <link rel="stylesheet" type="text/css" href="{% static 'protocols/style.css' %}">
-<div class = "container">
-    <div class = "nav" id = "navbar">
-        <header>
-            <h1><a href="{% url 'protocols:index'%}">Experiment Scheduler</a></h1>
-            <a id = "schedule-btn" class = "generic-btn" href="{% url 'protocols:scheduler' %}">Schedule</a>
+<link rel="stylesheet" type="text/css" href="{% static 'bootstrap-4.3.1-dist/bootstrap-4.3.1-dist/css/bootstrap.min.css' %}">
+<script src="{% static 'jquery-3.5.0.js' %}"></script>
+<script src="{% static 'bootstrap-4.3.1-dist/bootstrap-4.3.1-dist/js/bootstrap.min.js' %}"></script>
 
-
-        </header>
-
-    </div>
+    <nav class = "navbar sticky-top narbar-dark bg-dark" id = "navbar">
+            <div class = "navbar-header">
+                <a class = "navbar-brand" href="{% url 'protocols:index'%}">Experiment Scheduler</a>
+            </div>
+            <a id = "schedule-btn" class = "btn btn-sm btn-secondary" href="{% url 'protocols:scheduler' %}">Schedule</a>
+    </nav>
+    <div class = "container-fluid">

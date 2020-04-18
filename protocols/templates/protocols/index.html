@@ -1,8 +1,8 @@
 {% include "./header.html" %}
 <!-- header -->
-    <div class = "main">
-        <aside>
-            <div>
+    <div class = "main row">
+        <div class = "col">
+            <div class = "">
                 <h3>Current Tasks:</h3>
                 {% if events %}
                     <!--<table class="white-background">
@@ -10,13 +10,11 @@
                             <th><strong>Protocol</strong></th>
                             <th><strong>Days</strong></th>
                         </tr>-->
-                    <ul>
+                    <div class = "list-group">
                         {% for event in events %}
-                            <li>
-                                <h3><a href="{% url 'protocols:event_edit' event.id %}">{{event.title}}</a></h3>
-                            </li>
+                            <a class="list-group-item list-group-item-action" href="{% url 'protocols:event_edit' event.id %}">{{event.title}}</a>
                         {% endfor %}
-                    </ul>
+                    </div>
                         <!--</table>-->
                 {% else %}
                     <p>There are no steps scheduled today</p>
@@ -30,16 +28,14 @@
                         <th><strong>Protocol</strong></th>
                         <th><strong>Days</strong></th>
                     </tr>-->
-                <ul>
+                <div class = "list-group">
                     {% for protocol in protocol_list %}
-                        <li>
-                            <h3><a href="{% url 'protocols:detail' protocol.id %}">{{protocol.name}}</a></h3>
-                        </li>
+                        <a class = "list-group-item list-group-item-action" href="{% url 'protocols:detail' protocol.id %}">{{protocol.name}}</a>
                     {% endfor %}
-                        <li>
-                            <h3><a href = "{% url 'protocols:add_protocol' %}">+ add protocol</a></h3>
-                        </li>
-                </ul>
+
+                        <a class = "btn"  href = "{% url 'protocols:add_protocol' %}">+ add protocol</a>
+
+                </div>
                     <!--</table>-->
             {% else %}
                 <p>No protocols are available</p>
@@ -48,9 +44,9 @@
 
             </div>
 
-        </aside>
+        </div>
 
-        <div class = "calendar-container">
+        <div class = "calendar-container col-9">
             <div>
                 <h3>Calendar:<span style="float:right; margin-right: 20px;" ><a class = 'month-btn' href="{% url 'protocols:index' %}?{{ prev_month }}"> << </a><a class = 'month-btn' href="{% url 'protocols:index' %}?{{ next_month }}"> >> </a></span></h3>
             </div>

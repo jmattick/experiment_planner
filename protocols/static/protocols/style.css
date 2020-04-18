@@ -1,3 +1,4 @@
+/*
 :root {
   --body-font-color: black;
   --nav-bg-color: #90CCF4;
@@ -16,13 +17,15 @@ body {
     margin: 0px;
     background-color: var(--body-bg-color);
     font-family: Arial, Helvetica, sans-serif;
-   /* color: yellow;
+   */
+/* color: yellow;
     background: url("images/jason-leung-Xaanw0s0pMk-unsplash.gif") no-repeat center center fixed;
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;
     background-size: cover;
-    background-size: 100% 100%;*/
+    background-size: 100% 100%;*//*
+
 }
 
 #navbar {
@@ -45,7 +48,9 @@ header {
 header > h1 {
     padding: 5px 0px 5px 0px;
     margin: 0px 0px;
-    /*color: #f6d51f;*/
+    */
+/*color: #f6d51f;*//*
+
     color: var(--nav-font-color);
     font-family: Tahoma, Geneva, sans-serif;
 }
@@ -142,12 +147,16 @@ aside a {
 @media only screen and (max-width: 799px) {
     aside {
         width: 100%;
-        /*flex-grow: 1;*/
+        */
+/*flex-grow: 1;*//*
+
     }
 
     .calendar-container {
         width: 100%;
-        /*flex-grow: 2;*/
+        */
+/*flex-grow: 2;*//*
+
     }
     #scheduler {
         width: 100%;
@@ -161,13 +170,21 @@ aside a {
 
 @media only screen and (min-width: 800px) {
     aside {
-       /* width: 30%;*/
-        /*flex-grow: 1;*/
+       */
+/* width: 30%;*//*
+
+        */
+/*flex-grow: 1;*//*
+
     }
 
     .calendar-container {
-        /*width: 60%;*/
-        /*flex-grow: 2;*/
+        */
+/*width: 60%;*//*
+
+        */
+/*flex-grow: 2;*//*
+
         flex-grow: 1;
     }
 }
@@ -246,3 +263,4 @@ aside a {
     margin: 0 20px;
 }
 
+*/

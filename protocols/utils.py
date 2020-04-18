@@ -106,11 +106,17 @@ def protocol_to_protocol_ll(protocol):
         days_between = s.days_between
         gap_days = s.gap_days
         if s.type == "TDS":
-            protocol_ll.add_step(TDStep(step_text, time_min, days_between, gap_days))
+            step = TDStep(step_text, time_min, days_between, gap_days)
+            step.id = s.pk
+            protocol_ll.add_step(step)
         elif s.type == "RSDS":
-            protocol_ll.add_step(RSDStep(step_text, time_min, days_between, gap_days))
+            step = RSDStep(step_text, time_min, days_between, gap_days)
+            step.id = s.pk
+            protocol_ll.add_step(step)
         else:
-            protocol_ll.add_step(SDStep(step_text, time_min, days_between, gap_days))
+            step = SDStep(step_text, time_min, days_between, gap_days)
+            step.id = s.pk
+            protocol_ll.add_step(step)
     dag, nodes = protocol_ll.build_DAG()  # store the dag and nodes in variables to be passed
 
     protocol.protocol_ll = protocol_ll
@@ -267,7 +273,12 @@ def add_experiment_to_calendar(experiment, dag, nodes, schedule):
 
     curr = parents[final]
     while curr is not None:
-        # TODO get steps to add events
         print(curr)
+        print(curr[1].id)
+        step = Step.objects.get(pk=curr[1].id)
+        date = experiment.date + timedelta(days=curr[0])
+        print('date: ' + str(date))
+        Event.objects.create(step=step, experiment_id=experiment.pk, title=experiment.name, start_time=date, minutes=step.time_min)
+        print(step.step_text)
         curr = parents[curr]
 

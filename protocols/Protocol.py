@@ -24,6 +24,7 @@ class Step:
         self.days = days
         self.details = None
         self.gap = gap
+        self.id = None
 
     def add_details(self, details=None):
         """Updates step details"""

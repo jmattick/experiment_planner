@@ -48,7 +48,7 @@ class Event(models.Model):
 
     @property
     def get_html_url(self):
-        url = reverse('protocols:event_edit', args=(self.id,))
+        url = reverse('protocols:event', args=(self.id,))
         return f'<a href="{url}">{self.title}</a>'
 
 

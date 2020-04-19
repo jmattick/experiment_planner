@@ -62,11 +62,57 @@ def create_event(request):
     return render(request, 'protocols/new_event.html', context)
 
 
+def edit_event(request, event_id):
+    template_name = 'protocols/event_edit.html'
+    event = get_object_or_404(Event, pk=event_id)
+    experiment = get_object_or_404(Experiment, pk=event.experiment_id)
+    # Form
+    if request.method == 'POST':
+        form = EventForm(request.POST, instance=event)
+        if form.is_valid():
+            event = form.save()
+            return redirect('protocols:event', event_id=event.id)
+    else:
+        form = EventForm(instance=event)
+
+    context = {
+        'event': event,
+        'experiment': experiment,
+        'form': form
+    }
+    return render(request, template_name, context)
+
+#
+# class EventUpdate(UpdateView):
+#     model = Event
+#     template_name = 'protocols/event_edit.html'
+#     fields = '__all__'
+#     success_url = None
+#
+#     def get_context_data(self, **kwargs):
+#         data = super(EventUpdate, self).get_context_data(**kwargs)
+#         return data
+#
+#     def form_valid(self, form):
+#         context = self.get_context_data()
+#         with transaction.atomic():
+#             self.object = form.save()
+#         return super(EventUpdate, self).form_valid(form)
+#
+#     def get_success_url(self):
+#         return reverse_lazy('protocols:event', kwargs={'event_id': self.object.pk})
+
+
 def event(request, event_id):
     template_name = 'protocols/event.html'
     context_object_name = 'event'
     event = get_object_or_404(Event, pk=event_id)
-    return render(request, template_name, {context_object_name: event})
+    experiment = get_object_or_404(Experiment, pk=event.experiment_id)
+    context = {
+        context_object_name: event,
+        'experiment': experiment
+    }
+    return render(request, template_name, context)
 
 
 def scheduler(request):

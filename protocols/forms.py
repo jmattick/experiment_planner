@@ -2,15 +2,17 @@ from django.forms import ModelForm, DateInput
 from .models import Event, Experiment, Protocol, Step
 from datetime import datetime
 from django.forms.models import inlineformset_factory
-
+from django import forms
 
 class EventForm(ModelForm):
+    notes = forms.CharField(widget=forms.Textarea)
+
     class Meta:
         model = Event
         widgets = {
-            'start_time': DateInput(attrs={'type': 'datetime-local'}, format='%Y-%m-%d')
+            'start_time': DateInput(attrs={'type': 'date'}, format='%Y-%m-%d')
         }
-        fields = '__all__'
+        fields = ['title', 'start_time', 'minutes', 'notes']
 
         def __init__(self, *args, **kwargs):
             super(EventForm, self).__init__(*args, **kwargs)

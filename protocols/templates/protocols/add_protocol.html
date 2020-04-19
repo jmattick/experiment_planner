@@ -1,43 +1,45 @@
 {% include "./header.html" %}
+{% load crispy_forms_tags %}
 
-<div class = "form">
-    <form action="" method="post">{% csrf_token %}
-        {{ form.as_p }}
-        <table class="table">
-            {{ steps.management_form }}
+<div class = "main">
+    <div class = "form ">
+        <form action="" method="post">{% csrf_token %}
+            {{ form |crispy }}
+            <table class="table table-responsive-sm">
+                {{ steps.management_form }}
 
-            {% for form in steps.forms %}
-                {% if forloop.first %}
-                    <thead>
-                    <tr>
+                {% for form in steps.forms %}
+                    {% if forloop.first %}
+                        <thead>
+                        <tr>
+                            {% for field in form.visible_fields %}
+                                <th>{{ field.label|capfirst }}</th>
+                            {% endfor %}
+                        </tr>
+                        </thead>
+                    {% endif %}
+                    <tr class="">
                         {% for field in form.visible_fields %}
-                            <th>{{ field.label|capfirst }}</th>
+                            <td>
+                                {# Include the hidden fields in the form #}
+                                {% if forloop.first %}
+                                    {% for hidden in form.hidden_fields %}
+                                        {{ hidden }}
+                                    {% endfor %}
+                                {% endif %}
+                                {{ field.errors.as_ul }}
+                                {{ field }}
+                            </td>
                         {% endfor %}
                     </tr>
-                    </thead>
-                {% endif %}
-                <tr class="">
-                    {% for field in form.visible_fields %}
-                        <td>
-                            {# Include the hidden fields in the form #}
-                            {% if forloop.first %}
-                                {% for hidden in form.hidden_fields %}
-                                    {{ hidden }}
-                                {% endfor %}
-                            {% endif %}
-                            {{ field.errors.as_ul }}
-                            {{ field }}
-                        </td>
-                    {% endfor %}
-                </tr>
-            {% endfor %}
-        </table>
-        <input type="submit" value="Save"/>
-        {% if object %}
-        <a href="{% url 'protocols:delete_protocol' object.pk %}">delete</a>
-        <a href = "{% url 'protocols:detail' object.pk %}">Back</a>
-        {% endif %}
-    </form>
+                {% endfor %}
+            </table>
+            <input class = "btn btn-success" type="submit" value="Save"/>
+            {% if object %}
+            <a class = "btn btn-danger" href="{% url 'protocols:delete_protocol' object.pk %}">Delete</a>
+            <a class = "btn btn-secondary" href = "{% url 'protocols:detail' object.pk %}">Back</a>
+            {% endif %}
+        </form>
+    </div>
 </div>
-
 {% include "./footer.html" %}

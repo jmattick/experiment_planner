@@ -64,6 +64,14 @@ body {
     vertical-align: top;
 }
 
+.events {
+    margin: 0px auto;
+}
+
+.main {
+    margin-top: 10px;
+}
+
 .month-btn {
     margin: 5px;
 }

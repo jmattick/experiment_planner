@@ -1,11 +1,19 @@
 {% include "./header.html" %}
 <div class = "main">
-    <div class = "events">
-        <h1>{{event.title}}</h1>
-        <p>Date: {{event.start_time|date:'Y-m-d'}}</p>
-        <p>Protocol: <a href="{% url 'protocols:detail' event.step.protocol.id %}">{{event.step.protocol.name}}</a></p>
-        <p>Time: {{event.minutes}} minutes</p>
-        <p>Description: {{event.step.step_text}}</p>
+    <div class = "events card w-25">
+        <div class = "card-header">
+            <h4 class = "">{{event.title}}</h4>
+        </div>
+        <div class = "card-body">
+
+            <div class = "card-text">
+                <p>Date: {{event.start_time|date:'Y-m-d'}}</p>
+                <p>Protocol: <a href="{% url 'protocols:detail' event.step.protocol.id %}">{{event.step.protocol.name}}</a></p>
+                <p>Time: {{event.minutes}} minutes</p>
+                <p>Description: {{event.step.step_text}}</p>
+            </div>
+
+        </div>
     </div>
 </div>
 {% include "./footer.html" %}

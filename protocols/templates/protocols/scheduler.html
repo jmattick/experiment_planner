@@ -1,18 +1,21 @@
 {% include "./header.html" %}
-<div class = "form">
-    <h1>Schedule an Experiment:</h1>
-    <div id = "scheduler">
-        {% block content %}
-        <form method = "post">
-            {% csrf_token %}
+{% load crispy_forms_tags %}
+<div class = "main">
+    <div class = "form" id = "schedule_form">
+        <h4>Schedule an Experiment:</h4>
+        <div id = "scheduler">
+            {% block content %}
+            <form method = "post">
+                {% csrf_token %}
 
-                {{form.as_p}}
+                    {{form | crispy}}
 
-            <input type="submit" value="Submit">
-        </form>
-        {% endblock %}
+                <input class = "btn btn-success" type="submit" value="Submit">
+                <a class = "btn btn-secondary" href = "{% url 'protocols:index' %}">Back</a>
+            </form>
+            {% endblock %}
+        </div>
     </div>
-
 </div>
 {% include "./footer.html" %}
 

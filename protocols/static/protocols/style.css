@@ -7,6 +7,10 @@
     font-family: Arial, Helvetica, sans-serif;
 }*/
 
+#add_cal {
+    margin-left: 5px;
+}
+
 .container-fluid {
     min-height: 90%;
 }
@@ -64,7 +68,7 @@
     vertical-align: top;
 }
 
-.events {
+.events, #schedule_form {
     margin: 0px auto;
     max-width: 500px;
 }

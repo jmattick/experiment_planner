@@ -105,7 +105,9 @@ a {
     border: 1px solid #343a40;
 }
 
-
+#event_delete > * {
+    margin-right: 10px;
+}
 
 /*
 :root {

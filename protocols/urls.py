@@ -16,5 +16,6 @@ urlpatterns = [
     path('<int:protocol_id>/', views.detail, name='detail'),
     path('calendar/', views.CalendarView.as_view(), name='calendar'),
     path('event/<int:event_id>/', views.event, name='event'),
-    path('calendar/edit/<int:event_id>/', views.edit_event, name='event_edit')
+    path('calendar/edit/<int:event_id>/', views.edit_event, name='event_edit'),
+    path('calendar/delete/<int:event_id>/', views.delete_event, name="event_delete")
 ]

@@ -82,25 +82,22 @@ def edit_event(request, event_id):
     }
     return render(request, template_name, context)
 
-#
-# class EventUpdate(UpdateView):
-#     model = Event
-#     template_name = 'protocols/event_edit.html'
-#     fields = '__all__'
-#     success_url = None
-#
-#     def get_context_data(self, **kwargs):
-#         data = super(EventUpdate, self).get_context_data(**kwargs)
-#         return data
-#
-#     def form_valid(self, form):
-#         context = self.get_context_data()
-#         with transaction.atomic():
-#             self.object = form.save()
-#         return super(EventUpdate, self).form_valid(form)
-#
-#     def get_success_url(self):
-#         return reverse_lazy('protocols:event', kwargs={'event_id': self.object.pk})
+
+def delete_event(request, event_id):
+    template_name = 'protocols/event_delete.html'
+    event = get_object_or_404(Event, pk=event_id)
+    context = {
+        'event': event
+    }
+
+    if "one" in request.POST:
+        Event.objects.get(pk=event_id).delete()  # delete event
+        return redirect('protocols:index')
+    elif "all" in request.POST:
+        Event.objects.filter(experiment_id=event.experiment_id).delete()  # delete all events in experiment
+        return redirect('protocols:index')
+
+    return render(request, template_name, context)
 
 
 def event(request, event_id):

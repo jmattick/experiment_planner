@@ -41,7 +41,7 @@ class Event(models.Model):
     title = models.CharField(max_length=200)
     start_time = models.DateTimeField(default=timezone.now(),)
     minutes = models.IntegerField(default=5)
-    notes = models.CharField(max_length=1000)
+    notes = models.CharField(max_length=1000, blank=True)
 
     def __str__(self):
         return self.title

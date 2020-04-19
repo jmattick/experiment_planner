@@ -11,6 +11,7 @@
                 <form action="" method="post">{% csrf_token %}
                     {{ form | crispy}}
                     <input class = "btn btn-success" type="submit" value="Save"/>
+                    <a class = "btn btn-danger" href="{% url 'protocols:event_delete' event.pk %}">Delete</a>
                 </form>
             </div>
 

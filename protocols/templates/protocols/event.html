@@ -18,7 +18,10 @@
                 </div>
 
             </div>
-            <a id = "save" class = "btn btn-primary" href = "{% url 'protocols:event_edit' event.id %}">Edit</a>
+            <div id = "save">
+                <a class = "btn btn-primary" href = "{% url 'protocols:event_edit' event.id %}">Edit</a>
+            <a class = "btn btn-secondary" href = "{% url 'protocols:index' %}">Back</a>
+            </div>
 
         </div>
     </div>

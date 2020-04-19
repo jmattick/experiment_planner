@@ -1,0 +1,13 @@
+{% include "./header.html" %}
+
+    <div class = "main">
+        <form action="" method="post">{% csrf_token %}
+            <p>Are you sure you want to delete "{{ event }}" event?</p>
+            <p>Chose between deleting this event only or deleting all events in this experiment. </p>
+            <div id = "event_delete">
+                <input class = "btn btn-warning" type="submit" name = "one" value="Delete One"/><input class = "btn btn-danger" type="submit" name = "all" value="Delete All"/><a class = "btn btn-secondary" href = "{% url 'protocols:event_edit' event.id %}">Back</a>
+            </div>
+
+        </form>
+    </div>
+{% include "./footer.html" %}

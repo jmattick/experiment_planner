@@ -1,6 +1,6 @@
 {% include "./header.html" %}
 
-    <div>
+    <div class = "main">
         <form action="" method="post">{% csrf_token %}
             <p>Are you sure you want to delete "{{ object }}"? Any scheduled events for this protocol will also be deleted.</p>
             <input type="submit" value="Confirm"/> <a href = "{% url 'protocols:edit_protocol' object.id %}">Back</a>

@@ -5,6 +5,7 @@ from .models import Event, Step
 from heapq import heappush, heappop
 from timeit import default_timer
 
+
 class Calendar(HTMLCalendar):
     def __init__(self, year=None, month=None):
         self.year = year

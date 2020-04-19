@@ -1,6 +1,6 @@
 {% include "./header.html" %}
 <!-- header -->
-    <div class = "main row">
+    <div id = "index-main" class = "main row">
         <div class = "col">
             <div class = "">
                 <h3>Current Tasks:</h3>
@@ -33,13 +33,13 @@
                         <a class = "list-group-item list-group-item-action" href="{% url 'protocols:detail' protocol.id %}">{{protocol.name}}</a>
                     {% endfor %}
 
-                        <a class = "btn"  href = "{% url 'protocols:add_protocol' %}">+ add protocol</a>
+                        <a  class = "btn list-group-item list-group-item-light"  href = "{% url 'protocols:add_protocol' %}">+ add protocol</a>
 
                 </div>
                     <!--</table>-->
             {% else %}
                 <p>No protocols are available</p>
-                <a href = "{% url 'protocols:add_protocol' %}">+ add protocol</a>
+                <a class = "list-group-item list-group-item-light" href = "{% url 'protocols:add_protocol' %}">+ add protocol</a>
             {% endif %}
 
             </div>
@@ -48,7 +48,7 @@
 
         <div class = "calendar-container col-9">
             <div>
-                <h3>Calendar:<span style="float:right; margin-right: 20px;" ><a class = 'month-btn' href="{% url 'protocols:index' %}?{{ prev_month }}"> << </a><a class = 'month-btn' href="{% url 'protocols:index' %}?{{ next_month }}"> >> </a></span></h3>
+                <h3>Calendar:<span style="float:right;" ><a class = 'month-btn btn btn-light btn-sm' href="{% url 'protocols:index' %}?{{ prev_month }}"> << </a><a class = 'month-btn btn btn-light btn-sm' href="{% url 'protocols:index' %}?{{ next_month }}"> >> </a></span></h3>
             </div>
             <div>
                 {{calendar}}

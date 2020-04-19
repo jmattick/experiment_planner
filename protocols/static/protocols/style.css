@@ -1,3 +1,81 @@
+:root {
+  --event-bg-color: #F3D250;
+    --nav-bg-color: #90CCF4;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.container-fluid {
+    min-height: 90%;
+}
+
+.calendar-container {
+    height: 100%;
+    width: 100%;
+}
+.calendar {
+    height: 90%;
+    width: 100%;
+}
+#index-main {
+    height: 90%;
+}
+
+.calendar ul {
+    padding: 5px;
+    list-style-type: none;
+    margin: 0px;
+
+}
+
+.calendar ul li > * {
+    margin: 0px;
+}
+
+.calendar li {
+    text-align: center;
+    border: 1px solid var(--event-bg-color);
+    border-radius: 5px;
+    background-color: var(--event-bg-color);
+    margin: 2px 0px;
+}
+
+.calendar td {
+    width: calc(100% / 7);
+}
+
+.calendar tr th {
+    padding: 5px 0px 0px 5px;
+    margin: 0px;
+}
+
+.calendar tr:nth-child(-n+2) {
+    padding: 5px;
+    height: 30px;
+}
+
+.calendar td span {
+    padding: 5px 0px 0px 5px;
+}
+
+.calendar > * {
+    vertical-align: top;
+}
+
+.month-btn {
+    margin: 5px;
+}
+
+#navbar {
+    background-color: var(--nav-bg-color);
+}
+
+table, th, td {
+    border: 1px solid var(--nav-bg-color);
+}
+
 /*
 :root {
   --body-font-color: black;

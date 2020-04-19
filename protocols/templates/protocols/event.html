@@ -1,6 +1,6 @@
 {% include "./header.html" %}
 <div class = "main">
-    <div class = "events card w-25">
+    <div class = "events card">
         <div class = "card-header">
             <h4 class = "">{{event.title}}</h4>
         </div>
@@ -8,7 +8,7 @@
 
             <div class = "card-text">
                 <p>Date: {{event.start_time|date:'Y-m-d'}}</p>
-                <p>Protocol: <a href="{% url 'protocols:detail' event.step.protocol.id %}">{{event.step.protocol.name}}</a></p>
+                <p>Protocol: <a class = "badge badge-secondary" href="{% url 'protocols:detail' event.step.protocol.id %}">{{event.step.protocol.name}}</a></p>
                 <p>Time: {{event.minutes}} minutes</p>
                 <p>Description: {{event.step.step_text}}</p>
             </div>

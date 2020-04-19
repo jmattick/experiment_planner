@@ -48,7 +48,7 @@
 
         <div class = "calendar-container col-9">
             <div>
-                <h3>Calendar:<span style="float:right;" ><a class = 'month-btn btn btn-light btn-sm' href="{% url 'protocols:index' %}?{{ prev_month }}"> << </a><a class = 'month-btn btn btn-light btn-sm' href="{% url 'protocols:index' %}?{{ next_month }}"> >> </a></span></h3>
+                <h3>Calendar:<span style="float:right;" ><a class = 'month-btn btn btn-secondary btn-sm' href="{% url 'protocols:index' %}?{{ prev_month }}"> << </a><a class = 'month-btn btn btn-secondary btn-sm' href="{% url 'protocols:index' %}?{{ next_month }}"> >> </a></span></h3>
             </div>
             <div>
                 {{calendar}}

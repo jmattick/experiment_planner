@@ -66,6 +66,7 @@ body {
 
 .events {
     margin: 0px auto;
+    max-width: 500px;
 }
 
 .main {
@@ -78,11 +79,17 @@ body {
 
 #navbar {
     background-color: var(--nav-bg-color);
+    background: #00b09b;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #96c93d, #00b09b);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #96c93d, #00b09b); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
 }
 
-table, th, td {
-    border: 1px solid var(--nav-bg-color);
+.calendar, .calendar > tbody > tr, .cal-cell {
+    border: 1px solid #343a40;
 }
+
+
 
 /*
 :root {

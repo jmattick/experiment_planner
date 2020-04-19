@@ -25,8 +25,8 @@ class Calendar(HTMLCalendar):
 
         if day != 0:
             if self.month == datetime.today().month and day == datetime.today().day:
-                return f"<td style='background-color:rgba(223,76,115,{trans})'><span id = 'today' class='date'>{day}</span><ul> {d} </ul></td>"
-            return f"<td style='background-color:rgba(223,76,115,{trans})'><span class='date'>{day}</span><ul> {d} </ul></td>"
+                return f"<td class='cal-cell' style='background-color:rgba(223,76,115,{trans})'><span id = 'today' class='date'>{day}</span><ul> {d} </ul></td>"
+            return f"<td class='cal-cell' style='background-color:rgba(223,76,115,{trans})'><span class='date'>{day}</span><ul> {d} </ul></td>"
         return '<td></td>'
 
     def formatweek(self, theweek, events):

@@ -11,8 +11,13 @@
             </div>
 
             <a id = "schedule-btn" class = "btn btn-sm btn-light ml-auto" href="{% url 'protocols:scheduler' %}">Schedule</a>
+            {% if user.is_authenticated %}
+                <a id = "profile-btn" class = "btn btn-sm btn-outline-light ml-2" href="{% url 'profile' %}">{{ user.username }}</a>
+                <a id = "logout-btn" class = "btn btn-sm btn-outline-light ml-2" href="{% url 'logout' %}">Logout</a>
+            {% else %}
             <a id = "login-btn" class = "btn btn-sm btn-outline-light ml-2" href="{% url 'register' %}">Sign Up</a>
-            <a id = "signup-btn" class = "btn btn-sm btn-outline-light ml-2" href="{% url 'protocols:index' %}">Sign In</a>
+            <a id = "signup-btn" class = "btn btn-sm btn-outline-light ml-2" href="{% url 'login' %}">Sign In</a>
+            {% endif %}
     </nav>
     {% if messages %}
         {% for message in messages %}

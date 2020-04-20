@@ -11,7 +11,14 @@
             </div>
 
             <a id = "schedule-btn" class = "btn btn-sm btn-light ml-auto" href="{% url 'protocols:scheduler' %}">Schedule</a>
-            <a id = "login-btn" class = "btn btn-sm btn-outline-light ml-2" href="{% url 'protocols:index' %}">Log In</a>
+            <a id = "login-btn" class = "btn btn-sm btn-outline-light ml-2" href="{% url 'register' %}">Sign Up</a>
             <a id = "signup-btn" class = "btn btn-sm btn-outline-light ml-2" href="{% url 'protocols:index' %}">Sign In</a>
     </nav>
+    {% if messages %}
+        {% for message in messages %}
+            <div class = "alert alert-{{ message.tags }}">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
     <div class = "container-fluid">

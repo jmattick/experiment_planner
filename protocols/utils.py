@@ -69,7 +69,6 @@ def format_dag_json(dag, nodes):
     """Function to format the dag, nodes output from build_DAG() into json for D3"""
     json_nodes = [] # { "id": 1, "name": node}, ...
     json_links = [] # {"source": 1, "target": 2}, ...
-    print(nodes)
     for i in range(len(nodes)):
         node = nodes[i]
         json_n = {}
@@ -176,9 +175,7 @@ def score_dijkstra(dag, nodes, schedule, penalty=(1, 1, 1, 1, 1, 100, 100)):
     return distances[nodes[-1]], parents, nodes[-1]  # return distance of terminal node
 
 
-
 def score_alignments(protocol_ll, schedule, start_range, penalty=(1, 1, 1, 1, 1, 100, 100)):
-
     def score(i):
         """Function using a topological shortest path algorithm"""
         dag, nodes = protocol_ll.build_DAG()
@@ -211,12 +208,13 @@ def score_alignments(protocol_ll, schedule, start_range, penalty=(1, 1, 1, 1, 1,
                     node_scores[v] = new_score
         return node_scores[final_node]  # return final score
 
+
     def score_dijkstra(i):
         """Function using a dijkstra's shortest path algorithm"""
         dag, nodes = protocol_ll.build_DAG()
         distances = {node: float('inf') for node in nodes}  # initialize distances to inf
         distances[nodes[0]] = 0  # set first node dist to 0
-        pq = [(0, nodes[0])] #initialize priority queue
+        pq = [(0, nodes[0])]  # initialize priority queue
 
         while len(pq) > 0:
             curr_d, curr_u = heappop(pq) # get node with lowest distance
@@ -225,7 +223,7 @@ def score_alignments(protocol_ll, schedule, start_range, penalty=(1, 1, 1, 1, 1,
             if curr_u not in dag:
                 continue
             for v in dag[curr_u]:  # for adjacent v in graph
-                if v[1] is None: #if terminal node
+                if v[1] is None:  # if terminal node
                     if v not in nodes:
                         nodes.append(v)
                         distances[v] = float('inf')
@@ -274,12 +272,8 @@ def add_experiment_to_calendar(experiment, dag, nodes, schedule):
 
     curr = parents[final]
     while curr is not None:
-        print(curr)
-        print(curr[1].id)
         step = Step.objects.get(pk=curr[1].id)
         date = experiment.date + timedelta(days=curr[0])
-        print('date: ' + str(date))
         Event.objects.create(step=step, experiment_id=experiment.pk, title=experiment.name, start_time=date, minutes=step.time_min)
-        print(step.step_text)
         curr = parents[curr]
 

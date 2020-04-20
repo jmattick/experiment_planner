@@ -2,7 +2,7 @@
     <div id = "details" class = "">
         <div class = "white-background">
         <h1>{{protocol.name}}</h1>
-            <button><a href = "{% url 'protocols:edit_protocol' protocol.id %}">Edit</a></button>
+
         <p>{{protocol.description}}</p>
 
         <table class="white-background table table-responsive-sm">
@@ -36,13 +36,14 @@
             {% endfor %}
 
         </table>
-        <h2>DAG:</h2>
+            <a class = 'btn btn-secondary' href = "{% url 'protocols:edit_protocol' protocol.id %}">Edit</a>
+<!--        <h2>DAG:</h2>
         <div>
             {% for node in protocol.dag %}
                 <p>{{node}}</p>
             {% endfor %}
         </div>
-        </div>
+        </div>-->
     </div>
 
 {% include "./footer.html" %}

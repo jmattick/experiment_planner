@@ -137,20 +137,14 @@ def scheduler(request):
 def scheduler_options(request, experiment_id):
     template_name = 'protocols/scheduler_options.html'
     experiment = get_object_or_404(Experiment, pk=experiment_id)
-
     protocol_ll = protocol_to_protocol_ll(experiment.protocol)
-
-    num_days = protocol_ll.total_days() #max number of days in protocol
+    num_days = protocol_ll.total_days()  # max number of days in protocol
     start_range = experiment.latest_start - experiment.earliest_start
-    print(start_range.days)
     start = experiment.earliest_start
     end = experiment.latest_start + timedelta(days=num_days + 1)
     sched_len = end - start
-    print('len:  ' + str(num_days + 1))
     events = Event.objects.filter(start_time__gte=start, start_time__lte=end)
-
     schedule_objs = build_schedule(start, sched_len.days, events)
-
     scores = score_alignments(protocol_ll, schedule_objs, start_range.days)
     formated_scores = []
     x = []
@@ -158,7 +152,6 @@ def scheduler_options(request, experiment_id):
     for score in scores:
         x.append(str(score[0].date()))
         y.append(score[1])
-
     fig = go.Figure([go.Bar(x=x, y=y)])
     fig.update_layout(
         title={
@@ -177,7 +170,6 @@ def scheduler_options(request, experiment_id):
         if form.is_valid():
             experiment = form.save()
             if 'add_calendar' in request.POST:
-                print('add to calendar')
                 schedule_objs_events = build_schedule(experiment.date, sched_len.days, events)
 
                 #TODO add to calendar logic here

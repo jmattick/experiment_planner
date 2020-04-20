@@ -231,7 +231,6 @@ def detail(request, protocol_id):
         'json': json
 
     }
-
     return render(request, template_name, context)
 
 

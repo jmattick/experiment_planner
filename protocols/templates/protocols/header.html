@@ -9,6 +9,9 @@
             <div class = "navbar-header">
                 <a class = "navbar-brand" href="{% url 'protocols:index'%}">Experiment Scheduler</a>
             </div>
-            <a id = "schedule-btn" class = "btn btn-sm btn-light" href="{% url 'protocols:scheduler' %}">Schedule</a>
+
+            <a id = "schedule-btn" class = "btn btn-sm btn-light ml-auto" href="{% url 'protocols:scheduler' %}">Schedule</a>
+            <a id = "login-btn" class = "btn btn-sm btn-outline-light ml-2" href="{% url 'protocols:index' %}">Log In</a>
+            <a id = "signup-btn" class = "btn btn-sm btn-outline-light ml-2" href="{% url 'protocols:index' %}">Sign In</a>
     </nav>
     <div class = "container-fluid">

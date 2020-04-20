@@ -142,7 +142,7 @@ def protocol_to_protocol_ll(protocol):
 
 
 def score_dijkstra(dag, nodes, schedule, penalty=(1, 1, 1, 1, 1, 100, 100)):
-    """Function using a dijkstra's shortest path algorithm"""
+    """Function using dijkstra's shortest path algorithm"""
     distances = {node: float('inf') for node in nodes}  # initialize distances to inf
     parents = {node: None for node in nodes}  # initialize parent dictionary
     distances[nodes[0]] = 0  # set first node dist to 0
@@ -207,7 +207,6 @@ def score_alignments(protocol_ll, schedule, start_range, penalty=(1, 1, 1, 1, 1,
                 if new_score < node_scores[v]:  # if better path
                     node_scores[v] = new_score
         return node_scores[final_node]  # return final score
-
 
     def score_dijkstra(i):
         """Function using a dijkstra's shortest path algorithm"""

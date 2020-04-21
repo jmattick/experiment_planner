@@ -221,11 +221,15 @@ class IndexView(ListView):
             context['events'] = Event.objects.filter(start_time__date=datetime.now(), created_by=self.request.user)
             cal = Calendar(d.year, d.month, self.request.user)
         else:
+            print("no user")
             cal = Calendar(d.year, d.month)
+            context['protocol_list'] = []
+            
         html_cal = cal.formatmonth(withyear=True)
         context['calendar'] = mark_safe(html_cal)
         context['prev_month'] = prev_month(d)
         context['next_month'] = next_month(d)
+        print(context['protocol_list'])
 
         return context
 

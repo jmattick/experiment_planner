@@ -1,0 +1,26 @@
+{% include "./header.html" %}
+    <div id = "details" class = "col-md-6 mx-auto">
+
+        <h3>{{experiment.name}}</h3>
+        <p>Protocol: <a class = "badge badge-secondary" href="{% url 'protocols:detail' experiment.protocol.id %}">{{experiment.protocol.name}}</a></p>
+        {% if events %}
+            {% for event in events %}
+                <div class = "card mb-2">
+                    <div class = "card-body">
+                        <div class = "card-text">
+                            <a href = "{% url 'protocols:event' event.id %}" class = "btn btn-outline-info float-right">Details</a>
+                            <p>Date: {{event.start_time|date:'Y-m-d'}}</p>
+                            <p>Time: {{event.minutes}} minutes</p>
+                            <p>Description: {{event.step.step_text}}</p>
+                            <p>Notes: </p>
+                            <div id = "notes" class = "card">
+                                <p class = "text-muted">{{event.notes}}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        {% endif %}
+    </div>
+
+{% include "./footer.html" %}

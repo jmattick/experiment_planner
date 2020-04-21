@@ -208,8 +208,12 @@ class ProtocolLinkedList:
             if step.next is None:  # base case if no more nodes to add in path
                 return
             d2 = d + step.days  # next day in protocol
+            gap = step.gap
             if step.type() == "TDS":  # if step is a time dependent step
                 d2 = d + step.next.days  # next day depends on next step
+            if step.next.type() == "TDS":  # if next step is time dependent
+                d2 = step.next.days_from_start  # next day is day from start of tds
+                gap = 0  # no gap
             if step.type() == "RSDS":  # if step is repeating
                 latest_day_next_step = step.next.days_from_start + step.next.gap  # last day in protocol that step can be added
                 for i in range(step.gap + 1):  # loop through gap values
@@ -242,7 +246,7 @@ class ProtocolLinkedList:
                             if (d2 + i, step.next) not in G:
                                 add_node(G, d2 + i, step.next)  # call function on next step
             else:  # for all other steps
-                for i in range(step.gap + 1):  # loop through gap values
+                for i in range(gap + 1):  # loop through gap values
                     # setup tuples with day and step for edge
                     u = (d, step)
                     v = (d2 + i, step.next)

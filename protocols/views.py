@@ -97,6 +97,7 @@ def delete_event(request, event_id):
         return redirect('protocols:index')
     elif "all" in request.POST:
         Event.objects.filter(experiment_id=event.experiment_id).delete()  # delete all events in experiment
+        Experiment.objects.filter(pk=event.experiment_id).delete() # delete experiment
         return redirect('protocols:index')
 
     return render(request, template_name, context)

@@ -13,7 +13,6 @@
                     <div class = "list-group">
                         {% for event in events %}
                             <a class="list-group-item list-group-item-action" href="{% url 'protocols:event' event.id %}">{{event.title}}</a>
-                            <a class="list-group-item list-group-item-action" href="{% url 'protocols:event' event.id %}">{{event.title}}</a>
                         {% endfor %}
                     </div>
                         <!--</table>-->

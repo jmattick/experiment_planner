@@ -217,7 +217,7 @@ class IndexView(ListView):
         if self.request.user.is_authenticated:
             print(self.request.user)
             context['protocol_list'] = Protocol.objects.filter(created_by=self.request.user)
-            events = Event.objects.filter(start_time__date=datetime.now(), created_by=self.request.user)
+            context['events'] = Event.objects.filter(start_time__date=datetime.now(), created_by=self.request.user)
             cal = Calendar(d.year, d.month, self.request.user)
         else:
             cal = Calendar(d.year, d.month)

@@ -128,9 +128,13 @@ def scheduler(request):
             return redirect('protocols:scheduler_options', experiment_id=experiment.id)
     else:
         experiment = Experiment()
+        experiment.created_by = request.user
         print('get:')
         print(experiment.id)
+        print(experiment.created_by)
         form = ExperimentForm(instance=experiment)
+        form.fields['protocol'].queryset = Protocol.objects.filter(created_by=request.user)
+        # form['protocol'].queryset = Protocol.objects.filter(created_by=request.user)
     template_name = 'protocols/scheduler.html'
     context = {
         'form': form

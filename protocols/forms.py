@@ -20,6 +20,7 @@ class EventForm(ModelForm):
 
 
 class ExperimentForm(ModelForm):
+
     class Meta:
         model = Experiment
         widgets = {
@@ -34,6 +35,7 @@ class ExperimentForm(ModelForm):
             super(ExperimentForm, self).__init__(*args, **kwargs)
             self.fields['earliest_start'].input_formats = ('%Y-%m-%d',),
             self.fields['latest_start'].input_formats = ('%Y-%m-%d',)
+            self.fields['protocol'].queryset = (Protocol.objects.filter(created_by=self.created_by))
 #
 #
 # class ProtoclForm(ModelForm):

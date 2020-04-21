@@ -4,8 +4,9 @@ from datetime import datetime
 from django.forms.models import inlineformset_factory
 from django import forms
 
+
 class EventForm(ModelForm):
-    notes = forms.CharField(widget=forms.Textarea)
+    notes = forms.CharField(widget=forms.Textarea, required=False)
 
     class Meta:
         model = Event

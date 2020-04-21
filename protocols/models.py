@@ -44,7 +44,7 @@ class Event(models.Model):
     title = models.CharField(max_length=200)
     start_time = models.DateTimeField(default=timezone.now(),)
     minutes = models.IntegerField(default=5)
-    notes = models.CharField(max_length=1000, blank=True)
+    notes = models.CharField(max_length=1000, blank=True, null=True)
     created_by = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
 
     def __str__(self):

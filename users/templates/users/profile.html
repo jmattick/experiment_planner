@@ -3,16 +3,38 @@
 {% block content %}
 <div class = "">
     <h1>{{ user.username }}</h1>
-    <form method="POST" class = "col-md-6 mx-auto" enctype="multipart/form-data">
-        {% csrf_token %}
-        <fieldset class = "form-group">
-            <legend class = "border-bottom mb-4">Profile Info</legend>
-            {{ form | crispy}}
-        </fieldset>
-        <div class = "form-group">
-            <button class = "btn btn-outline-info" type="submit">Update</button>
+    <div class = "row">
+        <div class = "col-md-5">
+            <legend class = "border-bottom mb-r">Experiments</legend>
+            {% if experiments %}
+                {% for experiment in experiments %}
+            <p><a href = "{% url 'protocols:experiment' experiment.id %}">{{experiment.name}}</a></p>
+                {% endfor %}
+            {% endif %}
+
         </div>
-    </form>
+        <div class = "col-md-5">
+            <legend class = "border-bottom mb-r">Protocols</legend>
+
+            {% if protocols %}
+                {% for protocol in protocols %}
+            <p><a href = "{% url 'protocols:detail' protocol.id %}">{{protocol.name}}</a></p>
+                {% endfor %}
+            {% endif %}
+        </div>
+        <form method="POST" class = "col-md-2" enctype="multipart/form-data">
+            {% csrf_token %}
+            <fieldset class = "form-group">
+                <legend class = "border-bottom mb-4">Profile Info</legend>
+                {{ form | crispy }}
+            </fieldset>
+            <div class = "form-group">
+                <button class = "btn btn-outline-info" type="submit">Update</button>
+            </div>
+        </form>
+
+    </div>
+
 </div>
 
 {% endblock content %}

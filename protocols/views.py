@@ -247,6 +247,17 @@ def detail(request, protocol_id):
     return render(request, template_name, context)
 
 
+def experiment(request, experiment_id):
+    template_name = 'protocols/experiment.html'
+    experiment = get_object_or_404(Experiment, pk=experiment_id)
+    events = Event.objects.filter(experiment_id=experiment_id)
+    context = {
+        'experiment': experiment,
+        'events': events
+    }
+    return render(request, template_name, context)
+
+
 class ProtocolCreate(LoginRequiredMixin, CreateView):
     model = Protocol
     template_name = 'protocols/add_protocol.html'

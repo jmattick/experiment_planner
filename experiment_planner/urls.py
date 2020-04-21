@@ -21,7 +21,7 @@ from users import views as user_views
 
 urlpatterns = [
     path('', RedirectView.as_view(url='protocols/')),
-    path('protocols/', include('protocols.urls')),
+    path('protocols/', include('protocols.urls'), name='protocols'),
     path('admin/', admin.site.urls),
     path('register/', user_views.register, name='register'),
     path('profile/', user_views.profile, name='profile'),

@@ -3,6 +3,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from .forms import UserRegisterForm, UserUpdateForm
+from protocols.models import Protocol, Experiment
 
 
 def register(request):
@@ -28,8 +29,11 @@ def profile(request):
             return redirect('profile')
     else:
         form = UserUpdateForm(instance=request.user)
-
+    experiments = Experiment.objects.filter(created_by=request.user)
+    protocols = Protocol.objects.filter(created_by=request.user)
     context = {
-        'form': form
+        'form': form,
+        'experiments': experiments,
+        'protocols': protocols
     }
     return render(request, 'users/profile.html', context)

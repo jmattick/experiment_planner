@@ -9,6 +9,7 @@
             <div class = "card-text">
                 <p>Date: {{event.start_time|date:'Y-m-d'}}</p>
                 <p>Protocol: <a class = "badge badge-secondary" href="{% url 'protocols:detail' event.step.protocol.id %}">{{event.step.protocol.name}}</a></p>
+                <p>Experiment: <a class = "badge badge-info" href="{% url 'protocols:experiment' event.experiment_id %}">{{event.title}}</a></p>
                 <!--<p>Experiment: <a class = "badge badge-secondary" href="{% url 'protocols:detail' event.step.protocol.id %}">{{experiment.name}}</a></p>-->
                 <p>Time: {{event.minutes}} minutes</p>
                 <p>Description: {{event.step.step_text}}</p>

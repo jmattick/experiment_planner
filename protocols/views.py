@@ -209,12 +209,14 @@ class IndexView(ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['protocol_list'] = Protocol.objects.all()
-        events = Event.objects.filter(start_time__date=datetime.now(), created_by=self.request.user)
-        context['events'] = events
         d = get_date(self.request.GET.get('month', None))
-        cal = Calendar(d.year, d.month, self.request.user)
-        cal = Calendar(d.year, d.month, self.request.user)
+        if self.request.user.is_authenticated:
+            print(self.request.user)
+            context['protocol_list'] = Protocol.objects.filter(created_by=self.request.user)
+            events = Event.objects.filter(start_time__date=datetime.now(), created_by=self.request.user)
+            cal = Calendar(d.year, d.month, self.request.user)
+        else:
+            cal = Calendar(d.year, d.month)
         html_cal = cal.formatmonth(withyear=True)
         context['calendar'] = mark_safe(html_cal)
         context['prev_month'] = prev_month(d)

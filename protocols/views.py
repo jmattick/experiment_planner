@@ -2,6 +2,8 @@ from datetime import date, datetime, timedelta
 import calendar
 import plotly.graph_objects as go
 import plotly.offline as opy
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.utils.safestring import mark_safe
 from django.shortcuts import get_object_or_404, redirect, render
 from django.http import HttpResponse
@@ -112,12 +114,14 @@ def event(request, event_id):
     return render(request, template_name, context)
 
 
+@login_required
 def scheduler(request):
     if request.method == 'POST':
         experiment = Experiment()
         form = ExperimentForm(request.POST, instance=experiment)
         print(form)
         if form.is_valid():
+            experiment.created_by = request.user
             experiment = form.save()
             print(experiment)
             print(experiment.pk)
@@ -134,6 +138,7 @@ def scheduler(request):
     return render(request, template_name, context)
 
 
+@login_required
 def scheduler_options(request, experiment_id):
     template_name = 'protocols/scheduler_options.html'
     experiment = get_object_or_404(Experiment, pk=experiment_id)
@@ -174,7 +179,7 @@ def scheduler_options(request, experiment_id):
 
                 #TODO add to calendar logic here
                 d, n = protocol_ll.build_DAG()
-                add_experiment_to_calendar(experiment, d, n, schedule_objs_events)
+                add_experiment_to_calendar(experiment, d, n, schedule_objs_events, request.user)
                 return redirect('protocols:index')
             return redirect('protocols:scheduler_options', experiment_id=experiment.id)
     else:
@@ -205,10 +210,11 @@ class IndexView(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['protocol_list'] = Protocol.objects.all()
-        events = Event.objects.filter(start_time__date=datetime.now())
+        events = Event.objects.filter(start_time__date=datetime.now(), created_by=self.request.user)
         context['events'] = events
         d = get_date(self.request.GET.get('month', None))
-        cal = Calendar(d.year, d.month)
+        cal = Calendar(d.year, d.month, self.request.user)
+        cal = Calendar(d.year, d.month, self.request.user)
         html_cal = cal.formatmonth(withyear=True)
         context['calendar'] = mark_safe(html_cal)
         context['prev_month'] = prev_month(d)
@@ -235,7 +241,7 @@ def detail(request, protocol_id):
     return render(request, template_name, context)
 
 
-class ProtocolCreate(CreateView):
+class ProtocolCreate(LoginRequiredMixin, CreateView):
     model = Protocol
     template_name = 'protocols/add_protocol.html'
     fields = ['name', 'description']
@@ -252,6 +258,7 @@ class ProtocolCreate(CreateView):
     def form_valid(self, form):
         context = self.get_context_data()
         steps = context['steps']
+        form.instance.created_by = self.request.user
         with transaction.atomic():
             self.object = form.save()
 
@@ -264,7 +271,7 @@ class ProtocolCreate(CreateView):
         return reverse_lazy('protocols:detail', kwargs={'protocol_id': self.object.pk})
 
 
-class ProtocolUpdate(UpdateView):
+class ProtocolUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Protocol
     template_name = 'protocols/add_protocol.html'
     fields = ['name', 'description']
@@ -283,11 +290,16 @@ class ProtocolUpdate(UpdateView):
         steps = context['steps']
         with transaction.atomic():
             self.object = form.save()
-
             if steps.is_valid():
                 steps.instance = self.object
                 steps.save()
         return super(ProtocolUpdate, self).form_valid(form)
+
+    def test_func(self):
+        protocol = self.get_object()
+        if self.request.user == protocol.created_by:
+            return True
+        return False
 
     def get_success_url(self):
         return reverse_lazy('protocols:detail', kwargs={'protocol_id': self.object.pk})
@@ -297,3 +309,9 @@ class ProtocolDelete(DeleteView):
     model = Protocol
     template_name = 'protocols/delete_protocol.html'
     success_url = reverse_lazy('protocols:index')
+
+    def test_func(self):
+        protocol = self.get_object()
+        if self.request.user == protocol.created_by:
+            return True
+        return False

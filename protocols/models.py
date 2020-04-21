@@ -1,6 +1,7 @@
 from django.db import models
 from django.urls import reverse
 from django.utils import timezone
+from django.contrib.auth.models import User
 import datetime
 from datetime import date, timedelta
 from .Protocol import ProtocolLinkedList, RSDStep, SDStep, TDStep
@@ -11,6 +12,7 @@ class Protocol(models.Model):
     days = models.IntegerField(default=1)
     description = models.CharField(max_length=200)
     protocol_ll = ProtocolLinkedList()
+    created_by = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
 
     def __str__(self):
         return self.name
@@ -27,6 +29,7 @@ class Step(models.Model):
     time_min = models.IntegerField(default=0)
     days_between = models.IntegerField(default=1)
     gap_days = models.IntegerField(default=0)
+    created_by = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
 
 
 class Feature(models.Model):
@@ -42,6 +45,7 @@ class Event(models.Model):
     start_time = models.DateTimeField(default=timezone.now(),)
     minutes = models.IntegerField(default=5)
     notes = models.CharField(max_length=1000, blank=True)
+    created_by = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
 
     def __str__(self):
         return self.title
@@ -58,6 +62,7 @@ class Experiment(models.Model):
     latest_start = models.DateTimeField(default=timezone.now() + timedelta(days=14))
     name = models.CharField(max_length=200)
     date = models.DateTimeField(default=timezone.now())
+    created_by = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
 
 
 

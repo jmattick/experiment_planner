@@ -39,9 +39,7 @@
 
             <input class = "btn btn-success" type="submit" value="Save"/>
             <input type="button" value="Add Step" id="add_more" class = "btn btn-success">
-            <a class = "btn btn-secondary" href = "{% url 'protocols:index' %}">Back</a>
             {% if object %}
-
             <a class = "btn btn-danger" href="{% url 'protocols:delete_protocol' object.pk %}">Delete</a>
             <a class = "btn btn-secondary" href = "{% url 'protocols:detail' object.pk %}">Back</a>
             {% endif %}

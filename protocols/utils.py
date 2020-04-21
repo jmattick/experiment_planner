@@ -7,9 +7,11 @@ from timeit import default_timer
 
 
 class Calendar(HTMLCalendar):
-    def __init__(self, year=None, month=None):
+    def __init__(self, year=None, month=None, user=None):
         self.year = year
         self.month = month
+        self.user = user
+        print(self.user)
         super(Calendar, self).__init__()
 
     def formatday(self, day, events):
@@ -36,7 +38,7 @@ class Calendar(HTMLCalendar):
         return f'<tr> {week} </tr>'
 
     def formatmonth(self, withyear=True):
-        events = Event.objects.filter(start_time__year=self.year, start_time__month=self.month)
+        events = Event.objects.filter(start_time__year=self.year, start_time__month=self.month, created_by=self.user)
         cal = f'<table border="0" cellpadding="0" cellspacing="0" class="calendar">\n'
         cal += f'{self.formatmonthname(self.year, self.month, withyear=withyear)}\n'
         cal += f'{self.formatweekheader()}\n'
@@ -266,13 +268,13 @@ def score_alignments(protocol_ll, schedule, start_range, penalty=(1, 1, 1, 1, 1,
     return all_scores_dijkstra
 
 
-def add_experiment_to_calendar(experiment, dag, nodes, schedule):
+def add_experiment_to_calendar(experiment, dag, nodes, schedule, user):
     _, parents, final = score_dijkstra(dag, nodes, schedule)
 
     curr = parents[final]
     while curr is not None:
         step = Step.objects.get(pk=curr[1].id)
         date = experiment.date + timedelta(days=curr[0])
-        Event.objects.create(step=step, experiment_id=experiment.pk, title=experiment.name, start_time=date, minutes=step.time_min)
+        Event.objects.create(step=step, experiment_id=experiment.pk, title=experiment.name, start_time=date, minutes=step.time_min, created_by=user)
         curr = parents[curr]
 

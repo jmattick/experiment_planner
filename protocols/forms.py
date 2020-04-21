@@ -28,6 +28,7 @@ class ExperimentForm(ModelForm):
             'date': DateInput(attrs={'type': 'date', 'value': datetime.now().strftime('%Y-%m-%d')}, format='%Y-%m-%d')
         }
         fields = '__all__'
+        exclude = ['created_by']
 
         def __init__(self, *args, **kwargs):
             super(ExperimentForm, self).__init__(*args, **kwargs)
@@ -54,4 +55,4 @@ class StepForm(ModelForm):
         exclude = ()
 
 
-StepFormSet = inlineformset_factory(Protocol, Step, form=StepForm, fields='__all__', extra=3, can_delete=True)
+StepFormSet = inlineformset_factory(Protocol, Step, form=StepForm, fields='__all__', exclude=['created_by'], extra=3, can_delete=True)

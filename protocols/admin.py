@@ -3,12 +3,13 @@ from django.contrib import admin
 from .models import Event, Feature, Protocol, Step
 
 
-# class EventAdmin(admin.ModelAdmin):
-#     fieldsets = [
-#         ('Title', {'fields': ['title']}),
-#         ('Start', {'fields': ['start_time']}),
-#         ('Minutes', {'fields': ['minutes']})
-#     ]
+class EventAdmin(admin.ModelAdmin):
+    fieldsets = [
+        ('Title', {'fields': ['title']}),
+        ('Start', {'fields': ['start_time']}),
+        ('Minutes', {'fields': ['minutes']})
+    ]
+
 
 class EventInline(admin.TabularInline):
     model = Event
@@ -53,3 +54,4 @@ class ProtocolAdmin(admin.ModelAdmin):
 
 admin.site.register(Protocol, ProtocolAdmin)
 admin.site.register(Step, StepAdmin)
+admin.site.register(Event, EventAdmin)

@@ -17,7 +17,13 @@
                     </div>
                         <!--</table>-->
                 {% else %}
+                    {% if user.is_authenticated %}
                     <p>There are no steps scheduled today</p>
+                    {% else %}
+                        <div class = "list-group">
+                            <a class="list-group-item list-group-item-action" href="{% url 'protocols:about' %}">Learn about optimal scheduling</a>
+                        </div>
+                    {% endif %}
                 {% endif %}
             </div>
             <div>
@@ -38,7 +44,6 @@
                 </div>
                     <!--</table>-->
             {% else %}
-                <p>No protocols are available</p>
                 <a class = "list-group-item list-group-item-light" href = "{% url 'protocols:add_protocol' %}">+ add protocol</a>
             {% endif %}
 

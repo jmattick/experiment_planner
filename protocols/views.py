@@ -85,6 +85,11 @@ def edit_event(request, event_id):
     return render(request, template_name, context)
 
 
+def about(request):
+    template_name = 'protocols/about.html'
+    return render(request, template_name)
+
+
 def delete_event(request, event_id):
     template_name = 'protocols/event_delete.html'
     event = get_object_or_404(Event, pk=event_id)
@@ -224,7 +229,7 @@ class IndexView(ListView):
             print("no user")
             cal = Calendar(d.year, d.month)
             context['protocol_list'] = []
-            
+
         html_cal = cal.formatmonth(withyear=True)
         context['calendar'] = mark_safe(html_cal)
         context['prev_month'] = prev_month(d)

@@ -7,6 +7,7 @@ app_name = 'protocols'
 urlpatterns = [
     # path('', views.index, name='index'),
     path('', views.IndexView.as_view(), name='index'),
+    path('about/', views.about, name='about'),
     path('scheduler/', views.scheduler, name='scheduler'),
     path('scheduler/<int:experiment_id>/', views.scheduler_options, name='scheduler_options'),
     path('new_protocol/', views.ProtocolCreate.as_view(), name='add_protocol'),

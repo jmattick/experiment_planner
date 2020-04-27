@@ -143,41 +143,39 @@ def protocol_to_protocol_ll(protocol):
     return protocol_ll
 
 
-def score_dijkstra(dag, nodes, schedule, penalty=(1, 1, 1, 1, 1, 100, 100)):
+def score_dijkstra(dag, nodes, schedule, penalty=(1, 1, 1, 1, 1, 1000, 1000)):
     """Function using dijkstra's shortest path algorithm"""
     distances = {node: float('inf') for node in nodes}  # initialize distances to inf
     parents = {node: None for node in nodes}  # initialize parent dictionary
-    distances[nodes[0]] = 0  # set first node dist to 0
+    distances[nodes[0]] = 0  # set first node distance to 0
     pq = [(0, nodes[0])]  # initialize priority queue
 
     while len(pq) > 0:
         curr_d, curr_u = heappop(pq)  # get node with lowest distance
-        if curr_d > distances[curr_u]:  # if distance is greater than lowerst distance
+        if curr_d > distances[curr_u]:  # if distance is greater than lowest distance
             continue  # continue
         if curr_u not in dag:
             continue
         for v in dag[curr_u]:  # for adjacent v in graph
             if v[1] is None:  # if terminal node
-                if v not in nodes:
-                    nodes.append(v)
-                    distances[v] = float('inf')
-                weight = 0
-            else:
-                pen = int(penalty[schedule[v[0]].date.weekday()])
-                sch = int(schedule[v[0]].score)
-                time = int(v[1].minutes[0])
-                weight = pen * (sch + time)
-            dist = curr_d + weight
-
-            # is dist shorter than current shortest dist?
-            if dist < distances[v]:
+                if v not in nodes:  # if not added to nodes list
+                    nodes.append(v)  # add to nodes list
+                    distances[v] = float('inf')  # initialize distance to inf
+                weight = 0  # weight of terminal node is 0
+            else:  # calculate weight of non-terminal nodes
+                pen = int(penalty[schedule[v[0]].date.weekday()])  # day of week penalty
+                sch = int(schedule[v[0]].score)  # time on schedule
+                time = int(v[1].minutes[0])  # time of step
+                weight = pen * (sch + time)  # calculate weight
+            dist = curr_d + weight  # add weight to current path distance
+            if dist < distances[v]:  # is dist shorter than current shortest dist?
                 distances[v] = dist  # update distance
                 parents[v] = curr_u  # update parents
                 heappush(pq, (dist, v))  # add node to priority queue
-    return distances[nodes[-1]], parents, nodes[-1]  # return distance of terminal node
+    return distances[nodes[-1]], parents, nodes[-1]  # return distance of terminal node, parent dictionary, and node
 
 
-def score_alignments(protocol_ll, schedule, start_range, penalty=(1, 1, 1, 1, 1, 100, 100)):
+def score_alignments(protocol_ll, schedule, start_range, penalty=(1, 1, 1, 1, 1, 1000, 1000)):
     def score(i):
         """Function using a topological shortest path algorithm"""
         dag, nodes = protocol_ll.build_DAG()
@@ -247,10 +245,10 @@ def score_alignments(protocol_ll, schedule, start_range, penalty=(1, 1, 1, 1, 1,
     all_scores_dijkstra = []
     times_dijkstra = []
     dijkstra_faster = []
-    # z = open("runtime_tests.txt", "a")
-    # z.write(str(datetime.now()) + '\n')
-    # z.write(str(protocol_ll.build_DAG)+ '\n')
-    # z.write("date\ttopological_score\ttopological_time\tdijkstra_score\tdijkstra_time\tdijkstra_faster\n")
+    z = open("runtime_tests.txt", "a")
+    z.write(str(datetime.now()) + '\n')
+    z.write(str(protocol_ll.build_DAG)+ '\n')
+    z.write("date\ttopological_score\ttopological_time\tdijkstra_score\tdijkstra_time\tdijkstra_faster\n")
     for i in range(start_range):
         start = default_timer()
         all_scores.append((schedule[i].date, score(i)))
@@ -263,7 +261,7 @@ def score_alignments(protocol_ll, schedule, start_range, penalty=(1, 1, 1, 1, 1,
             dijkstra_faster.append(True)
         else:
             dijkstra_faster.append(False)
-        # z.write(str(schedule[i].date.strftime('%y-%m-%d')) + '\t' + str(all_scores[-1][1]) + '\t' + str(times[-1]) + '\t' + str(all_scores_dijkstra[-1][1]) + '\t' + str(times_dijkstra[-1]) + '\t' + str(dijkstra_faster[-1]) + '\n')
+        z.write(str(schedule[i].date.strftime('%y-%m-%d')) + '\t' + str(all_scores[-1][1]) + '\t' + str(times[-1]) + '\t' + str(all_scores_dijkstra[-1][1]) + '\t' + str(times_dijkstra[-1]) + '\t' + str(dijkstra_faster[-1]) + '\n')
     print(dijkstra_faster)
     return all_scores_dijkstra
 

@@ -27,6 +27,14 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+ACCOUNT_EMAIL_REQUIRED = True
+
+AUTHENTICATION_BACKENDS = [
+    # Needed to login by username in Django admin, regardless of `allauth`
+    'django.contrib.auth.backends.ModelBackend',
+    # `allauth` specific authentication methods, such as login by e-mail
+    'allauth.account.auth_backends.AuthenticationBackend',
+]
 
 # Application definition
 
@@ -39,7 +47,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'crispy_forms'
+    'django.contrib.sites',
+    'crispy_forms',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.google'
 ]
 
 MIDDLEWARE = [
@@ -59,7 +72,7 @@ ROOT_URLCONF = 'experiment_planner.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'templates')],
+        'DIRS': [os.path.join(BASE_DIR, 'templates'), os.path.join(BASE_DIR, 'templates', 'accounts')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -67,10 +80,13 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'django_settings_export.settings_export',
             ],
         },
     },
 ]
+
+
 
 WSGI_APPLICATION = 'experiment_planner.wsgi.application'
 
@@ -104,6 +120,29 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+SITE_ID = 1
+
+GOOGLE_CLIENT_ID = os.getenv("GOOGLE_CLIENT_ID")
+
+# Provider specific settings
+SOCIALACCOUNT_PROVIDERS = {
+    'google': {
+        'APP': {
+            'client_id': GOOGLE_CLIENT_ID,
+            'secret': os.getenv("GOOGLE_CLIENT_SECRET"),
+            'key': ''
+        },
+        'SCOPE': [
+            'profile',
+            'email',
+        ],
+        'AUTH_PARAMS': {
+            'access_type': 'online',
+        }
+    }
+}
+
+SOCIALACCOUNT_QUERY_EMAIL = ACCOUNT_EMAIL_REQUIRED
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.0/topics/i18n/
@@ -134,3 +173,8 @@ EMAIL_BACKEND = 'sendgrid_backend.SendgridBackend'
 SENDGRID_API_KEY = os.getenv("SENDGRID_API_KEY")
 SENDGRID_SANDBOX_MODE_IN_DEBUG = True
 SENDGRID_ECHO_TO_STDOUT=True
+
+
+SETTINGS_EXPORT = [
+    'GOOGLE_CLIENT_ID',
+]

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+  <head>
+      <meta name="google-signin-client_id" content="{{settings.GOOGLE_CLIENT_ID}}">
+
+    <title>{% block head_title %}{% endblock %}</title>
+    {% block extra_head %}
+    {% endblock %}
+  </head>
+  <body>
+    {% block body %}
+
+    {% if messages %}
+    <div>
+      <strong>Messages:</strong>
+      <ul>
+        {% for message in messages %}
+        <li>{{message}}</li>
+        {% endfor %}
+      </ul>
+    </div>
+    {% endif %}
+{% include "protocols/header.html" %}
+
+
+    {% block content %}
+    {% endblock %}
+    {% endblock %}
+    {% block extra_body %}
+    {% endblock %}
+  </body>
+</html>

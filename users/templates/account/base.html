@@ -9,19 +9,8 @@
   </head>
   <body>
     {% block body %}
-
-    {% if messages %}
-    <div>
-      <strong>Messages:</strong>
-      <ul>
-        {% for message in messages %}
-        <li>{{message}}</li>
-        {% endfor %}
-      </ul>
-    </div>
-    {% endif %}
 {% include "protocols/header.html" %}
-
+{% load crispy_forms_tags %}
 
     {% block content %}
     {% endblock %}

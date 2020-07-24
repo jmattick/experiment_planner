@@ -11,7 +11,6 @@ class Calendar(HTMLCalendar):
         self.year = year
         self.month = month
         self.user = user
-        print(self.user)
         super(Calendar, self).__init__()
 
     def formatday(self, day, events):
@@ -94,7 +93,6 @@ def format_dag_json(dag, nodes):
     json_dag = {}
     json_dag["nodes"] = json_nodes
     json_dag["links"] = json_links
-    print(json_dag)
     return json_dag
 
 
@@ -262,7 +260,6 @@ def score_alignments(protocol_ll, schedule, start_range, penalty=(1, 1, 1, 1, 1,
         else:
             dijkstra_faster.append(False)
         z.write(str(schedule[i].date.strftime('%y-%m-%d')) + '\t' + str(all_scores[-1][1]) + '\t' + str(times[-1]) + '\t' + str(all_scores_dijkstra[-1][1]) + '\t' + str(times_dijkstra[-1]) + '\t' + str(dijkstra_faster[-1]) + '\n')
-    print(dijkstra_faster)
     return all_scores_dijkstra
 
 

@@ -125,19 +125,13 @@ def scheduler(request):
     if request.method == 'POST':
         experiment = Experiment()
         form = ExperimentForm(request.POST, instance=experiment)
-        print(form)
         if form.is_valid():
             experiment.created_by = request.user
             experiment = form.save()
-            print(experiment)
-            print(experiment.pk)
             return redirect('protocols:scheduler_options', experiment_id=experiment.id)
     else:
         experiment = Experiment()
         experiment.created_by = request.user
-        print('get:')
-        print(experiment.id)
-        print(experiment.created_by)
         form = ExperimentForm(instance=experiment)
         form.fields['protocol'].queryset = Protocol.objects.filter(created_by=request.user)
         # form['protocol'].queryset = Protocol.objects.filter(created_by=request.user)
@@ -221,12 +215,10 @@ class IndexView(ListView):
         context = super().get_context_data(**kwargs)
         d = get_date(self.request.GET.get('month', None))
         if self.request.user.is_authenticated:
-            print(self.request.user)
             context['protocol_list'] = Protocol.objects.filter(created_by=self.request.user)
             context['events'] = Event.objects.filter(start_time__date=datetime.now(), created_by=self.request.user)
             cal = Calendar(d.year, d.month, self.request.user)
         else:
-            print("no user")
             cal = Calendar(d.year, d.month)
             context['protocol_list'] = []
 
@@ -234,8 +226,6 @@ class IndexView(ListView):
         context['calendar'] = mark_safe(html_cal)
         context['prev_month'] = prev_month(d)
         context['next_month'] = next_month(d)
-        print(context['protocol_list'])
-
         return context
 
 

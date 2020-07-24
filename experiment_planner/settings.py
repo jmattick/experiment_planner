@@ -23,7 +23,8 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = os.getenv("EXPERIMENT_PLANNER_SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+
+DEBUG = (os.environ.get('DJANGO_DEBUG') == 'True')
 
 ALLOWED_HOSTS = []
 
@@ -172,7 +173,7 @@ EMAIL_BACKEND = 'sendgrid_backend.SendgridBackend'
 
 SENDGRID_API_KEY = os.getenv("SENDGRID_API_KEY")
 SENDGRID_SANDBOX_MODE_IN_DEBUG = True
-SENDGRID_ECHO_TO_STDOUT=True
+SENDGRID_ECHO_TO_STDOUT=(os.environ.get('DJANGO_DEBUG') == 'True')
 
 
 SETTINGS_EXPORT = [

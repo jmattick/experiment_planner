@@ -2,8 +2,10 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.views.generic.edit import DeleteView
 from .forms import UserRegisterForm, UserUpdateForm
 from protocols.models import Protocol, Experiment
+from .models import User
 
 
 def register(request):
@@ -37,3 +39,21 @@ def profile(request):
         'protocols': protocols
     }
     return render(request, 'users/profile.html', context)
+
+@login_required
+def profile_settings(request):
+    return render(request, 'users/profile_settings.html', {})
+
+@login_required
+def delete_user(request):
+    if request.method == 'POST':
+        try:
+            u = User.objects.get(id=request.user.id)
+            u.delete()
+            messages.success(request, "Account successfully deleted")
+            return redirect('protocols:index')
+        except User.DoesNotExist:
+            messages.warning(request, "User does not exist")
+            # return render(request, 'users/user_confirm_delete.html')
+
+    return render(request, 'users/user_confirm_delete.html', {})

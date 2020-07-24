@@ -1,0 +1,13 @@
+{% include "protocols/header.html" %}
+{% block content %}
+<div class = "">
+    <h2>Are you sure you want to delete account for <a href = "{% url 'profile' %}">{{ user.username}}</a>?</h2>
+    <p>Account and all data associated with it will be permanently deleted. </p>
+    <form method="POST" >
+        {% csrf_token %}
+        <input class = "btn btn-danger" type="submit" value="Confirm Delete">
+    </form>
+
+</div>
+{% endblock content %}
+{% include "protocols/footer.html" %}

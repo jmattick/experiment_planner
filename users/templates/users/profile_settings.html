@@ -1,0 +1,10 @@
+{% include "protocols/header.html" %}
+{% block content %}
+<div class = "">
+    <h1>Profile Settings</h1>
+    <a class = "btn btn-outline-secondary mt-2" href = "{% url 'socialaccount_connections' %}">manage social accounts</a>
+    <a class = "btn btn-danger mt-2" href = "{% url 'delete_user' %}">delete account</a>
+
+</div>
+{% endblock content %}
+{% include "protocols/footer.html" %}

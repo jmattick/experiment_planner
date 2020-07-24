@@ -24,6 +24,7 @@ urlpatterns = [
     path('protocols/', include('protocols.urls'), name='protocols'),
     path('admin/', admin.site.urls),
     path('register/', user_views.register, name='register'),
+    path('privacy/', user_views.privacy, name='privacy'),
     path('profile/', user_views.profile, name='profile'),
     path('profile_settings/', user_views.profile_settings, name='profile_settings'),
     path('delete_user/', user_views.delete_user, name = 'delete_user'),

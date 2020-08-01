@@ -1,37 +1,27 @@
-#Travis
-
 language: python
-
 python:
-  - 3.7
-
+- 3.7
 services:
-  - postgresql
-
+- postgresql
 env:
   global:
-    - DJANGO_SETTINGS_MODULE="experiment_planner.settings"
-    - PYTHONPATH="/home/builds/jmattick/experiment_planner"
-    - PIP_USE_MIRRORS=true
-
+  - DJANGO_SETTINGS_MODULE="experiment_planner.settings"
+  - PYTHONPATH="/home/builds/jmattick/experiment_planner"
+  - PIP_USE_MIRRORS=true
 install:
-  - pip install -r requirements.txt
-
+- pip install -r requirements.txt
 before_script:
-  - psql -c "CREATE DATABASE travisdb;" -U postgres
-
+- psql -c "CREATE DATABASE travisdb;" -U postgres
 script:
-  - python manage.py test
-
+- python manage.py test
 branches:
   only:
-    - master
-    - dev
-
+  - master
+  - dev
 deploy:
   provider: heroku
   api_key:
-    secure: $HEROKU_API_KEY
+    secure: pk20WVreO/UokjDlY5D9jNR5qIeUhMt77rA1aUyyQkMtp1CDdDTwliHqsyOg7a0eQR90D2++lnd43mn/o1GDUqHmTz0/XR5pVK9lnRySX1MReL5fLL9vF59Ub0FcJyKjO0V2vexPLiw1HeLT4Ngg8/h6mcAQn0iOX7yTNKwfFz0Wv2UfmmFyRyMn/wjsH+jIt79KJAQeXofCDYLUxk1HNBh5F+0+LmHyF4UDxop+F7UdKmp+6QAWmO6bIXTY6Cl28wc0ybGZDKT9sgYcL7EGMhhFplPbO1t9MTuk+0ZVfyVnAKtpzSTP3COsM5OaSBC8KRY1asVqTcpGrS30nZe+2LpWrxg5FzTamoLxM2YA5BNsKqJpU2zKJJg2kVBiBoptR/W15YwKN4gi9Yrua77GyloAdzLg0s+S+RggardGxfF/JLvv+75VANHnKei6HqwoN/etwuyW6djRG4hjmwKQoCodB2sT3Aizm5WcKUXYK/QzX9HNyR3oIOO/gdsvzmadeNv+W3zgTv+6Ubr53RqxiYpySWvRYpposNJG+p49fcxfn6Wps2EOcCcdEncvpaKbdUv11io13yH0ZBUo+waAHO7aTNWy1wuPLzMfKrlHn+pGSYesytilXWehrnWBR+81jF41/DVU0BFJ/I6HwZUgdsIzcihV/NhM+ptEUihuxic=
   app:
     master: experiment-planner
     dev: experiment-planner-staging

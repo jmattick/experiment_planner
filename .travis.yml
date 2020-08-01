@@ -27,6 +27,6 @@ deploy:
   app:
     master: experiment-planner
     dev: experiment-planner-staging
-  script: 
-    - python manage.py makemigrations
-    - python manage.py migrate
+  script:
+    - python manage.py makemigrations --noinput
+    - python manage.py migrate --noinput

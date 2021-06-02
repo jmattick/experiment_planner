@@ -27,5 +27,5 @@ sendgrid==6.4.3
 six==1.15.0
 sqlparse==0.3.1
 starkbank-ecdsa==1.0.0
-urllib3==1.25.9
+urllib3==1.26.5
 whitenoise==5.1.0
